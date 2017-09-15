@@ -75,7 +75,7 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
         ConstructExprBiclustersOutput returnVal = null;
         //BEGIN construct_expr_biclusters
         
-        KBaseRelationEngineServiceClient reClient = getRECleint();
+        KBaseRelationEngineServiceClient reClient = getRECleint(authPart);
         KbKeUtilClient kmClient = getKEMathClient(authPart);
         final String DATA_TYPE = "gene expression";
         final String KEAPP_GUID = "KEApp1";
