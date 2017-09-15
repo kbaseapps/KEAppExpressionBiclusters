@@ -44,8 +44,8 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
         return client;
     }    
     
-    private KBaseRelationEngineServiceClient getRECleint(){
-        KBaseRelationEngineServiceClient client = new KBaseRelationEngineServiceClient(srvWizUrl);
+    private KBaseRelationEngineServiceClient getRECleint(AuthToken authPart) throws UnauthorizedException, IOException{
+        KBaseRelationEngineServiceClient client = new KBaseRelationEngineServiceClient(srvWizUrl, authPart);
         client.setIsInsecureHttpConnectionAllowed(true);
         client.setServiceVersion("dev");
         return client;    	
