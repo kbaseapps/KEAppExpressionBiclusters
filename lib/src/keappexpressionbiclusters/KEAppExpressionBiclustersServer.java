@@ -2,7 +2,6 @@ package keappexpressionbiclusters;
 
 import java.io.File;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonServerMethod;
@@ -10,11 +9,11 @@ import us.kbase.common.service.JsonServerServlet;
 import us.kbase.common.service.JsonServerSyslog;
 import us.kbase.common.service.RpcContext;
 
-
 //BEGIN_HEADER
 import java.io.IOException;
 import java.util.ArrayList;
 import us.kbase.common.service.UnauthorizedException;
+import java.util.List;
 
 import java.net.URL;
 import kbkeutil.*;
@@ -30,8 +29,8 @@ import kbaserelationengine.*;
 public class KEAppExpressionBiclustersServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
     private static final String version = "0.0.1";
-    private static final String gitUrl = "";
-    private static final String gitCommitHash = "";
+    private static final String gitUrl = "https://github.com/psnovichkov/KEAppExpressionBiclusters.git";
+    private static final String gitCommitHash = "ad5b67fce76af40813a31a0d6703bc84baaf8656";
 
     //BEGIN_CLASS_HEADER
     private URL wsUrl = null;
