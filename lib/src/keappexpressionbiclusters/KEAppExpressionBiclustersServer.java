@@ -92,6 +92,10 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
         	BuildBiclustersOutput res = kmClient.buildBiclusters(
         		new BuildBiclustersParams()
         		.withNdarrayRef(cmp.getWsNdarrayId())
+        		.withDistMetric("euclidean")
+        		.withDistThreshold(50.0)
+        		.withFclusterCriterion("distance")
+        		.withLinkageMethod("ward")        		
         		, jsonRpcContext);
         	
         	// Build list of biclusters
