@@ -122,7 +122,12 @@ sub new
 $params is a KEAppExpressionBiclusters.ConstructExprBiclustersInput
 $return is a KEAppExpressionBiclusters.ConstructExprBiclustersOutput
 ConstructExprBiclustersInput is a reference to a hash where the following keys are defined
-ConstructExprBiclustersOutput is a reference to a hash where the following keys are defined
+ConstructExprBiclustersOutput is a reference to a hash where the following keys are defined:
+	new_re_nodes has a value which is an int
+	updated_re_nodes has a value which is an int
+	new_re_links has a value which is an int
+	properties_set has a value which is an int
+	message has a value which is a string
 
 </pre>
 
@@ -133,7 +138,12 @@ ConstructExprBiclustersOutput is a reference to a hash where the following keys 
 $params is a KEAppExpressionBiclusters.ConstructExprBiclustersInput
 $return is a KEAppExpressionBiclusters.ConstructExprBiclustersOutput
 ConstructExprBiclustersInput is a reference to a hash where the following keys are defined
-ConstructExprBiclustersOutput is a reference to a hash where the following keys are defined
+ConstructExprBiclustersOutput is a reference to a hash where the following keys are defined:
+	new_re_nodes has a value which is an int
+	updated_re_nodes has a value which is an int
+	new_re_links has a value which is an int
+	properties_set has a value which is an int
+	message has a value which is a string
 
 
 =end text
@@ -318,14 +328,26 @@ a reference to a hash where the following keys are defined
 =begin html
 
 <pre>
-a reference to a hash where the following keys are defined
+a reference to a hash where the following keys are defined:
+new_re_nodes has a value which is an int
+updated_re_nodes has a value which is an int
+new_re_links has a value which is an int
+properties_set has a value which is an int
+message has a value which is a string
+
 </pre>
 
 =end html
 
 =begin text
 
-a reference to a hash where the following keys are defined
+a reference to a hash where the following keys are defined:
+new_re_nodes has a value which is an int
+updated_re_nodes has a value which is an int
+new_re_links has a value which is an int
+properties_set has a value which is an int
+message has a value which is a string
+
 
 =end text
 

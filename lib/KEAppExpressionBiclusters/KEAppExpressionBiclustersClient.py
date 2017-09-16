@@ -38,7 +38,9 @@ class KEAppExpressionBiclusters(object):
         :param params: instance of type "ConstructExprBiclustersInput" ->
            structure:
         :returns: instance of type "ConstructExprBiclustersOutput" ->
-           structure:
+           structure: parameter "new_re_nodes" of Long, parameter
+           "updated_re_nodes" of Long, parameter "new_re_links" of Long,
+           parameter "properties_set" of Long, parameter "message" of String
         """
         return self._client.call_method(
             'KEAppExpressionBiclusters.construct_expr_biclusters',

@@ -12,48 +12,33 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * <p>Original spec-file type: StoreKEAppDescriptorParams</p>
+ * <p>Original spec-file type: GetKEAppDescriptorParams</p>
  * 
  * 
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("com.googlecode.jsonschema2pojo")
 @JsonPropertyOrder({
-    "app"
+    "app_guid"
 })
-public class StoreKEAppDescriptorParams {
+public class GetKEAppDescriptorParams {
 
-    /**
-     * <p>Original spec-file type: KEAppDescriptor</p>
-     * 
-     * 
-     */
-    @JsonProperty("app")
-    private KEAppDescriptor app;
+    @JsonProperty("app_guid")
+    private String appGuid;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    /**
-     * <p>Original spec-file type: KEAppDescriptor</p>
-     * 
-     * 
-     */
-    @JsonProperty("app")
-    public KEAppDescriptor getApp() {
-        return app;
+    @JsonProperty("app_guid")
+    public String getAppGuid() {
+        return appGuid;
     }
 
-    /**
-     * <p>Original spec-file type: KEAppDescriptor</p>
-     * 
-     * 
-     */
-    @JsonProperty("app")
-    public void setApp(KEAppDescriptor app) {
-        this.app = app;
+    @JsonProperty("app_guid")
+    public void setAppGuid(String appGuid) {
+        this.appGuid = appGuid;
     }
 
-    public StoreKEAppDescriptorParams withApp(KEAppDescriptor app) {
-        this.app = app;
+    public GetKEAppDescriptorParams withAppGuid(String appGuid) {
+        this.appGuid = appGuid;
         return this;
     }
 
@@ -69,7 +54,7 @@ public class StoreKEAppDescriptorParams {
 
     @Override
     public String toString() {
-        return ((((("StoreKEAppDescriptorParams"+" [app=")+ app)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((("GetKEAppDescriptorParams"+" [appGuid=")+ appGuid)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

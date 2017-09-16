@@ -198,51 +198,6 @@ public class KBaseRelationEngineClient {
     }
 
     /**
-     * <p>Original spec-file function name: initReferenceData</p>
-     * <pre>
-     * </pre>
-     * @throws IOException if an IO exception occurs
-     * @throws JsonClientException if a JSON RPC exception occurs
-     */
-    protected String _initReferenceDataSubmit(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
-        if (this.serviceVersion != null) {
-            if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
-                jsonRpcContext = new RpcContext[] {new RpcContext()};
-            jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
-        }
-        List<Object> args = new ArrayList<Object>();
-        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
-        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._initReferenceData_submit", args, retType, true, true, jsonRpcContext);
-        return res.get(0);
-    }
-
-    /**
-     * <p>Original spec-file function name: initReferenceData</p>
-     * <pre>
-     * </pre>
-     * @throws IOException if an IO exception occurs
-     * @throws JsonClientException if a JSON RPC exception occurs
-     */
-    public void initReferenceData(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
-        String jobId = _initReferenceDataSubmit(jsonRpcContext);
-        TypeReference<List<JobState<Object>>> retType = new TypeReference<List<JobState<Object>>>() {};
-        long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
-        while (true) {
-            if (Thread.currentThread().isInterrupted())
-                throw new JsonClientException("Thread was interrupted");
-            try { 
-                Thread.sleep(asyncJobCheckTimeMs);
-            } catch(Exception ex) {
-                throw new JsonClientException("Thread was interrupted", ex);
-            }
-            asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
-            JobState<Object> res = _checkJob(jobId, retType);
-            if (res.getFinished() != 0L)
-                return;
-        }
-    }
-
-    /**
      * <p>Original spec-file function name: getFeatureSequences</p>
      * <pre>
      * </pre>
@@ -347,6 +302,7 @@ public class KBaseRelationEngineClient {
      * <pre>
      * </pre>
      * @param   params   instance of type {@link kbaserelationengine.StoreKEAppDescriptorParams StoreKEAppDescriptorParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
@@ -368,11 +324,110 @@ public class KBaseRelationEngineClient {
      * <pre>
      * </pre>
      * @param   params   instance of type {@link kbaserelationengine.StoreKEAppDescriptorParams StoreKEAppDescriptorParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public void storeKEAppDescriptor(StoreKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public GraphUpdateStat storeKEAppDescriptor(StoreKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         String jobId = _storeKEAppDescriptorSubmit(params, jsonRpcContext);
+        TypeReference<List<JobState<List<GraphUpdateStat>>>> retType = new TypeReference<List<JobState<List<GraphUpdateStat>>>>() {};
+        long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
+        while (true) {
+            if (Thread.currentThread().isInterrupted())
+                throw new JsonClientException("Thread was interrupted");
+            try { 
+                Thread.sleep(asyncJobCheckTimeMs);
+            } catch(Exception ex) {
+                throw new JsonClientException("Thread was interrupted", ex);
+            }
+            asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
+            JobState<List<GraphUpdateStat>> res = _checkJob(jobId, retType);
+            if (res.getFinished() != 0L)
+                return res.getResult().get(0);
+        }
+    }
+
+    /**
+     * <p>Original spec-file function name: updateKEAppDescriptor</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.StoreKEAppDescriptorParams StoreKEAppDescriptorParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    protected String _updateKEAppDescriptorSubmit(StoreKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        if (this.serviceVersion != null) {
+            if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
+                jsonRpcContext = new RpcContext[] {new RpcContext()};
+            jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
+        }
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
+        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._updateKEAppDescriptor_submit", args, retType, true, true, jsonRpcContext);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: updateKEAppDescriptor</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.StoreKEAppDescriptorParams StoreKEAppDescriptorParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GraphUpdateStat updateKEAppDescriptor(StoreKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        String jobId = _updateKEAppDescriptorSubmit(params, jsonRpcContext);
+        TypeReference<List<JobState<List<GraphUpdateStat>>>> retType = new TypeReference<List<JobState<List<GraphUpdateStat>>>>() {};
+        long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
+        while (true) {
+            if (Thread.currentThread().isInterrupted())
+                throw new JsonClientException("Thread was interrupted");
+            try { 
+                Thread.sleep(asyncJobCheckTimeMs);
+            } catch(Exception ex) {
+                throw new JsonClientException("Thread was interrupted", ex);
+            }
+            asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
+            JobState<List<GraphUpdateStat>> res = _checkJob(jobId, retType);
+            if (res.getFinished() != 0L)
+                return res.getResult().get(0);
+        }
+    }
+
+    /**
+     * <p>Original spec-file function name: cleanKEAppResults</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.CleanKEAppResultsParams CleanKEAppResultsParams}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    protected String _cleanKEAppResultsSubmit(CleanKEAppResultsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        if (this.serviceVersion != null) {
+            if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
+                jsonRpcContext = new RpcContext[] {new RpcContext()};
+            jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
+        }
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
+        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._cleanKEAppResults_submit", args, retType, true, true, jsonRpcContext);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: cleanKEAppResults</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.CleanKEAppResultsParams CleanKEAppResultsParams}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public void cleanKEAppResults(CleanKEAppResultsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        String jobId = _cleanKEAppResultsSubmit(params, jsonRpcContext);
         TypeReference<List<JobState<Object>>> retType = new TypeReference<List<JobState<Object>>>() {};
         long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
         while (true) {
@@ -391,10 +446,61 @@ public class KBaseRelationEngineClient {
     }
 
     /**
+     * <p>Original spec-file function name: getKEAppDescriptor</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetKEAppDescriptorParams GetKEAppDescriptorParams}
+     * @return   instance of type {@link kbaserelationengine.KEAppDescriptor KEAppDescriptor}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    protected String _getKEAppDescriptorSubmit(GetKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        if (this.serviceVersion != null) {
+            if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
+                jsonRpcContext = new RpcContext[] {new RpcContext()};
+            jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
+        }
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
+        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._getKEAppDescriptor_submit", args, retType, true, true, jsonRpcContext);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: getKEAppDescriptor</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetKEAppDescriptorParams GetKEAppDescriptorParams}
+     * @return   instance of type {@link kbaserelationengine.KEAppDescriptor KEAppDescriptor}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public KEAppDescriptor getKEAppDescriptor(GetKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        String jobId = _getKEAppDescriptorSubmit(params, jsonRpcContext);
+        TypeReference<List<JobState<List<KEAppDescriptor>>>> retType = new TypeReference<List<JobState<List<KEAppDescriptor>>>>() {};
+        long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
+        while (true) {
+            if (Thread.currentThread().isInterrupted())
+                throw new JsonClientException("Thread was interrupted");
+            try { 
+                Thread.sleep(asyncJobCheckTimeMs);
+            } catch(Exception ex) {
+                throw new JsonClientException("Thread was interrupted", ex);
+            }
+            asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
+            JobState<List<KEAppDescriptor>> res = _checkJob(jobId, retType);
+            if (res.getFinished() != 0L)
+                return res.getResult().get(0);
+        }
+    }
+
+    /**
      * <p>Original spec-file function name: storeBiclusters</p>
      * <pre>
      * </pre>
      * @param   params   instance of type {@link kbaserelationengine.StoreBiclustersParams StoreBiclustersParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
@@ -416,12 +522,13 @@ public class KBaseRelationEngineClient {
      * <pre>
      * </pre>
      * @param   params   instance of type {@link kbaserelationengine.StoreBiclustersParams StoreBiclustersParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public void storeBiclusters(StoreBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public GraphUpdateStat storeBiclusters(StoreBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         String jobId = _storeBiclustersSubmit(params, jsonRpcContext);
-        TypeReference<List<JobState<Object>>> retType = new TypeReference<List<JobState<Object>>>() {};
+        TypeReference<List<JobState<List<GraphUpdateStat>>>> retType = new TypeReference<List<JobState<List<GraphUpdateStat>>>>() {};
         long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
         while (true) {
             if (Thread.currentThread().isInterrupted())
@@ -432,43 +539,46 @@ public class KBaseRelationEngineClient {
                 throw new JsonClientException("Thread was interrupted", ex);
             }
             asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
-            JobState<Object> res = _checkJob(jobId, retType);
+            JobState<List<GraphUpdateStat>> res = _checkJob(jobId, retType);
             if (res.getFinished() != 0L)
-                return;
+                return res.getResult().get(0);
         }
     }
 
     /**
-     * <p>Original spec-file function name: testConfig</p>
+     * <p>Original spec-file function name: getBiclusterDescriptors</p>
      * <pre>
      * </pre>
-     * @return   instance of mapping from String to String
+     * @param   params   instance of type {@link kbaserelationengine.GetBiclusterDescriptorsParams GetBiclusterDescriptorsParams}
+     * @return   instance of list of type {@link kbaserelationengine.BiclusterDescriptor BiclusterDescriptor}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    protected String _testConfigSubmit(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    protected String _getBiclusterDescriptorsSubmit(GetBiclusterDescriptorsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         if (this.serviceVersion != null) {
             if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
                 jsonRpcContext = new RpcContext[] {new RpcContext()};
             jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
         }
         List<Object> args = new ArrayList<Object>();
+        args.add(params);
         TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
-        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._testConfig_submit", args, retType, true, true, jsonRpcContext);
+        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._getBiclusterDescriptors_submit", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
 
     /**
-     * <p>Original spec-file function name: testConfig</p>
+     * <p>Original spec-file function name: getBiclusterDescriptors</p>
      * <pre>
      * </pre>
-     * @return   instance of mapping from String to String
+     * @param   params   instance of type {@link kbaserelationengine.GetBiclusterDescriptorsParams GetBiclusterDescriptorsParams}
+     * @return   instance of list of type {@link kbaserelationengine.BiclusterDescriptor BiclusterDescriptor}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public Map<String,String> testConfig(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
-        String jobId = _testConfigSubmit(jsonRpcContext);
-        TypeReference<List<JobState<List<Map<String,String>>>>> retType = new TypeReference<List<JobState<List<Map<String,String>>>>>() {};
+    public List<BiclusterDescriptor> getBiclusterDescriptors(GetBiclusterDescriptorsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        String jobId = _getBiclusterDescriptorsSubmit(params, jsonRpcContext);
+        TypeReference<List<JobState<List<List<BiclusterDescriptor>>>>> retType = new TypeReference<List<JobState<List<List<BiclusterDescriptor>>>>>() {};
         long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
         while (true) {
             if (Thread.currentThread().isInterrupted())
@@ -479,7 +589,207 @@ public class KBaseRelationEngineClient {
                 throw new JsonClientException("Thread was interrupted", ex);
             }
             asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
-            JobState<List<Map<String,String>>> res = _checkJob(jobId, retType);
+            JobState<List<List<BiclusterDescriptor>>> res = _checkJob(jobId, retType);
+            if (res.getFinished() != 0L)
+                return res.getResult().get(0);
+        }
+    }
+
+    /**
+     * <p>Original spec-file function name: getBiclusters</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetBiclustersParams GetBiclustersParams}
+     * @return   instance of list of type {@link kbaserelationengine.Bicluster Bicluster}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    protected String _getBiclustersSubmit(GetBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        if (this.serviceVersion != null) {
+            if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
+                jsonRpcContext = new RpcContext[] {new RpcContext()};
+            jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
+        }
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
+        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._getBiclusters_submit", args, retType, true, true, jsonRpcContext);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: getBiclusters</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetBiclustersParams GetBiclustersParams}
+     * @return   instance of list of type {@link kbaserelationengine.Bicluster Bicluster}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public List<Bicluster> getBiclusters(GetBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        String jobId = _getBiclustersSubmit(params, jsonRpcContext);
+        TypeReference<List<JobState<List<List<Bicluster>>>>> retType = new TypeReference<List<JobState<List<List<Bicluster>>>>>() {};
+        long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
+        while (true) {
+            if (Thread.currentThread().isInterrupted())
+                throw new JsonClientException("Thread was interrupted");
+            try { 
+                Thread.sleep(asyncJobCheckTimeMs);
+            } catch(Exception ex) {
+                throw new JsonClientException("Thread was interrupted", ex);
+            }
+            asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
+            JobState<List<List<Bicluster>>> res = _checkJob(jobId, retType);
+            if (res.getFinished() != 0L)
+                return res.getResult().get(0);
+        }
+    }
+
+    /**
+     * <p>Original spec-file function name: storeWSGenome</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.StoreWSGenomeParams StoreWSGenomeParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    protected String _storeWSGenomeSubmit(StoreWSGenomeParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        if (this.serviceVersion != null) {
+            if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
+                jsonRpcContext = new RpcContext[] {new RpcContext()};
+            jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
+        }
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
+        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._storeWSGenome_submit", args, retType, true, true, jsonRpcContext);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: storeWSGenome</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.StoreWSGenomeParams StoreWSGenomeParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GraphUpdateStat storeWSGenome(StoreWSGenomeParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        String jobId = _storeWSGenomeSubmit(params, jsonRpcContext);
+        TypeReference<List<JobState<List<GraphUpdateStat>>>> retType = new TypeReference<List<JobState<List<GraphUpdateStat>>>>() {};
+        long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
+        while (true) {
+            if (Thread.currentThread().isInterrupted())
+                throw new JsonClientException("Thread was interrupted");
+            try { 
+                Thread.sleep(asyncJobCheckTimeMs);
+            } catch(Exception ex) {
+                throw new JsonClientException("Thread was interrupted", ex);
+            }
+            asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
+            JobState<List<GraphUpdateStat>> res = _checkJob(jobId, retType);
+            if (res.getFinished() != 0L)
+                return res.getResult().get(0);
+        }
+    }
+
+    /**
+     * <p>Original spec-file function name: connectWSFeatures2RefOrthologs</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.ConnectWSFeatures2RefOrthologsParams ConnectWSFeatures2RefOrthologsParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    protected String _connectWSFeatures2RefOrthologsSubmit(ConnectWSFeatures2RefOrthologsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        if (this.serviceVersion != null) {
+            if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
+                jsonRpcContext = new RpcContext[] {new RpcContext()};
+            jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
+        }
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
+        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._connectWSFeatures2RefOrthologs_submit", args, retType, true, true, jsonRpcContext);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: connectWSFeatures2RefOrthologs</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.ConnectWSFeatures2RefOrthologsParams ConnectWSFeatures2RefOrthologsParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GraphUpdateStat connectWSFeatures2RefOrthologs(ConnectWSFeatures2RefOrthologsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        String jobId = _connectWSFeatures2RefOrthologsSubmit(params, jsonRpcContext);
+        TypeReference<List<JobState<List<GraphUpdateStat>>>> retType = new TypeReference<List<JobState<List<GraphUpdateStat>>>>() {};
+        long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
+        while (true) {
+            if (Thread.currentThread().isInterrupted())
+                throw new JsonClientException("Thread was interrupted");
+            try { 
+                Thread.sleep(asyncJobCheckTimeMs);
+            } catch(Exception ex) {
+                throw new JsonClientException("Thread was interrupted", ex);
+            }
+            asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
+            JobState<List<GraphUpdateStat>> res = _checkJob(jobId, retType);
+            if (res.getFinished() != 0L)
+                return res.getResult().get(0);
+        }
+    }
+
+    /**
+     * <p>Original spec-file function name: connectWSFeatures2RefOTerms</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.ConnectWSFeatures2RefOTermsParams ConnectWSFeatures2RefOTermsParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    protected String _connectWSFeatures2RefOTermsSubmit(ConnectWSFeatures2RefOTermsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        if (this.serviceVersion != null) {
+            if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
+                jsonRpcContext = new RpcContext[] {new RpcContext()};
+            jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
+        }
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
+        List<String> res = caller.jsonrpcCall("KBaseRelationEngine._connectWSFeatures2RefOTerms_submit", args, retType, true, true, jsonRpcContext);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: connectWSFeatures2RefOTerms</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.ConnectWSFeatures2RefOTermsParams ConnectWSFeatures2RefOTermsParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GraphUpdateStat connectWSFeatures2RefOTerms(ConnectWSFeatures2RefOTermsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        String jobId = _connectWSFeatures2RefOTermsSubmit(params, jsonRpcContext);
+        TypeReference<List<JobState<List<GraphUpdateStat>>>> retType = new TypeReference<List<JobState<List<GraphUpdateStat>>>>() {};
+        long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
+        while (true) {
+            if (Thread.currentThread().isInterrupted())
+                throw new JsonClientException("Thread was interrupted");
+            try { 
+                Thread.sleep(asyncJobCheckTimeMs);
+            } catch(Exception ex) {
+                throw new JsonClientException("Thread was interrupted", ex);
+            }
+            asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
+            JobState<List<GraphUpdateStat>> res = _checkJob(jobId, retType);
             if (res.getFinished() != 0L)
                 return res.getResult().get(0);
         }

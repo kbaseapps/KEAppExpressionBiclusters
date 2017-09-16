@@ -205,19 +205,6 @@ public class KBaseRelationEngineServiceClient {
     }
 
     /**
-     * <p>Original spec-file function name: initReferenceData</p>
-     * <pre>
-     * </pre>
-     * @throws IOException if an IO exception occurs
-     * @throws JsonClientException if a JSON RPC exception occurs
-     */
-    public void initReferenceData(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
-        List<Object> args = new ArrayList<Object>();
-        TypeReference<Object> retType = new TypeReference<Object>() {};
-        caller.jsonrpcCall("KBaseRelationEngine.initReferenceData", args, retType, false, true, jsonRpcContext, this.serviceVersion);
-    }
-
-    /**
      * <p>Original spec-file function name: getFeatureSequences</p>
      * <pre>
      * </pre>
@@ -256,14 +243,65 @@ public class KBaseRelationEngineServiceClient {
      * <pre>
      * </pre>
      * @param   params   instance of type {@link kbaserelationengine.StoreKEAppDescriptorParams StoreKEAppDescriptorParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public void storeKEAppDescriptor(StoreKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public GraphUpdateStat storeKEAppDescriptor(StoreKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<GraphUpdateStat>> retType = new TypeReference<List<GraphUpdateStat>>() {};
+        List<GraphUpdateStat> res = caller.jsonrpcCall("KBaseRelationEngine.storeKEAppDescriptor", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: updateKEAppDescriptor</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.StoreKEAppDescriptorParams StoreKEAppDescriptorParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GraphUpdateStat updateKEAppDescriptor(StoreKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<GraphUpdateStat>> retType = new TypeReference<List<GraphUpdateStat>>() {};
+        List<GraphUpdateStat> res = caller.jsonrpcCall("KBaseRelationEngine.updateKEAppDescriptor", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: cleanKEAppResults</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.CleanKEAppResultsParams CleanKEAppResultsParams}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public void cleanKEAppResults(CleanKEAppResultsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
         TypeReference<Object> retType = new TypeReference<Object>() {};
-        caller.jsonrpcCall("KBaseRelationEngine.storeKEAppDescriptor", args, retType, false, true, jsonRpcContext, this.serviceVersion);
+        caller.jsonrpcCall("KBaseRelationEngine.cleanKEAppResults", args, retType, false, true, jsonRpcContext, this.serviceVersion);
+    }
+
+    /**
+     * <p>Original spec-file function name: getKEAppDescriptor</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetKEAppDescriptorParams GetKEAppDescriptorParams}
+     * @return   instance of type {@link kbaserelationengine.KEAppDescriptor KEAppDescriptor}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public KEAppDescriptor getKEAppDescriptor(GetKEAppDescriptorParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<KEAppDescriptor>> retType = new TypeReference<List<KEAppDescriptor>>() {};
+        List<KEAppDescriptor> res = caller.jsonrpcCall("KBaseRelationEngine.getKEAppDescriptor", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
     }
 
     /**
@@ -271,28 +309,100 @@ public class KBaseRelationEngineServiceClient {
      * <pre>
      * </pre>
      * @param   params   instance of type {@link kbaserelationengine.StoreBiclustersParams StoreBiclustersParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public void storeBiclusters(StoreBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public GraphUpdateStat storeBiclusters(StoreBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
-        TypeReference<Object> retType = new TypeReference<Object>() {};
-        caller.jsonrpcCall("KBaseRelationEngine.storeBiclusters", args, retType, false, true, jsonRpcContext, this.serviceVersion);
+        TypeReference<List<GraphUpdateStat>> retType = new TypeReference<List<GraphUpdateStat>>() {};
+        List<GraphUpdateStat> res = caller.jsonrpcCall("KBaseRelationEngine.storeBiclusters", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
     }
 
     /**
-     * <p>Original spec-file function name: testConfig</p>
+     * <p>Original spec-file function name: getBiclusterDescriptors</p>
      * <pre>
      * </pre>
-     * @return   instance of mapping from String to String
+     * @param   params   instance of type {@link kbaserelationengine.GetBiclusterDescriptorsParams GetBiclusterDescriptorsParams}
+     * @return   instance of list of type {@link kbaserelationengine.BiclusterDescriptor BiclusterDescriptor}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public Map<String,String> testConfig(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public List<BiclusterDescriptor> getBiclusterDescriptors(GetBiclusterDescriptorsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
-        TypeReference<List<Map<String,String>>> retType = new TypeReference<List<Map<String,String>>>() {};
-        List<Map<String,String>> res = caller.jsonrpcCall("KBaseRelationEngine.testConfig", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        args.add(params);
+        TypeReference<List<List<BiclusterDescriptor>>> retType = new TypeReference<List<List<BiclusterDescriptor>>>() {};
+        List<List<BiclusterDescriptor>> res = caller.jsonrpcCall("KBaseRelationEngine.getBiclusterDescriptors", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: getBiclusters</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetBiclustersParams GetBiclustersParams}
+     * @return   instance of list of type {@link kbaserelationengine.Bicluster Bicluster}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public List<Bicluster> getBiclusters(GetBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<List<Bicluster>>> retType = new TypeReference<List<List<Bicluster>>>() {};
+        List<List<Bicluster>> res = caller.jsonrpcCall("KBaseRelationEngine.getBiclusters", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: storeWSGenome</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.StoreWSGenomeParams StoreWSGenomeParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GraphUpdateStat storeWSGenome(StoreWSGenomeParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<GraphUpdateStat>> retType = new TypeReference<List<GraphUpdateStat>>() {};
+        List<GraphUpdateStat> res = caller.jsonrpcCall("KBaseRelationEngine.storeWSGenome", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: connectWSFeatures2RefOrthologs</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.ConnectWSFeatures2RefOrthologsParams ConnectWSFeatures2RefOrthologsParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GraphUpdateStat connectWSFeatures2RefOrthologs(ConnectWSFeatures2RefOrthologsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<GraphUpdateStat>> retType = new TypeReference<List<GraphUpdateStat>>() {};
+        List<GraphUpdateStat> res = caller.jsonrpcCall("KBaseRelationEngine.connectWSFeatures2RefOrthologs", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: connectWSFeatures2RefOTerms</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.ConnectWSFeatures2RefOTermsParams ConnectWSFeatures2RefOTermsParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GraphUpdateStat connectWSFeatures2RefOTerms(ConnectWSFeatures2RefOTermsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<GraphUpdateStat>> retType = new TypeReference<List<GraphUpdateStat>>() {};
+        List<GraphUpdateStat> res = caller.jsonrpcCall("KBaseRelationEngine.connectWSFeatures2RefOTerms", args, retType, true, true, jsonRpcContext, this.serviceVersion);
         return res.get(0);
     }
 
