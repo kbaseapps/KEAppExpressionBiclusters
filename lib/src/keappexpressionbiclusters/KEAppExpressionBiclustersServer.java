@@ -30,36 +30,16 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
     private static final String version = "0.0.1";
     private static final String gitUrl = "https://github.com/psnovichkov/KEAppExpressionBiclusters.git";
-    private static final String gitCommitHash = "ad5b67fce76af40813a31a0d6703bc84baaf8656";
+    private static final String gitCommitHash = "2ded823513ea49344bdefb4a6a552c9bc7aa8ffe";
 
     //BEGIN_CLASS_HEADER
-    private URL wsUrl = null;
-    private URL srvWizUrl = null;
-    private URL callbackUrl = null;
-    
-    private KbKeUtilClient getKEMathClient(AuthToken authPart) throws UnauthorizedException, IOException{
-        KbKeUtilClient client = new KbKeUtilClient(callbackUrl, authPart);
-        client.setIsInsecureHttpConnectionAllowed(true);
-        client.setServiceVersion("dev");
-        return client;
-    }    
-    
-    private KBaseRelationEngineServiceClient getRECleint(AuthToken authPart) throws UnauthorizedException, IOException{
-        KBaseRelationEngineServiceClient client = new KBaseRelationEngineServiceClient(srvWizUrl, authPart);
-        client.setIsInsecureHttpConnectionAllowed(true);
-        client.setServiceVersion("dev");
-        return client;    	
-    }
-
-    
+    KEAppExpressionBiclustersServerImpl impl;
     //END_CLASS_HEADER
 
     public KEAppExpressionBiclustersServer() throws Exception {
         super("KEAppExpressionBiclusters");
         //BEGIN_CONSTRUCTOR
-        wsUrl = new URL(config.get("workspace-url"));
-        srvWizUrl = new URL(config.get("srv-wiz-url"));
-        callbackUrl = new URL(System.getenv("SDK_CALLBACK_URL"));
+        impl = new KEAppExpressionBiclustersServerImpl(config);
         //END_CONSTRUCTOR
     }
 
@@ -74,50 +54,7 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
     public ConstructExprBiclustersOutput constructExprBiclusters(ConstructExprBiclustersInput params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
         ConstructExprBiclustersOutput returnVal = null;
         //BEGIN construct_expr_biclusters
-        
-        KBaseRelationEngineServiceClient reClient = getRECleint(authPart);
-        KbKeUtilClient kmClient = getKEMathClient(authPart);
-        final String DATA_TYPE = "gene expression";
-        final String KEAPP_GUID = "KEApp1";
-        
-        // Get all compendia
-        List<CompendiumDescriptor> compendia = reClient.getCompendiumDescriptors(
-        		new GetCompendiumDescriptorsParams()
-        		.withDataType(DATA_TYPE), jsonRpcContext);
-        
-        // Process each compendium
-        for(CompendiumDescriptor cmp: compendia){
-        	
-        	// Build biclusters
-        	BuildBiclustersOutput res = kmClient.buildBiclusters(
-        		new BuildBiclustersParams()
-        		.withNdarrayRef(cmp.getWsNdarrayId())
-        		.withDistMetric("euclidean")
-        		.withDistThreshold(50.0)
-        		.withFclusterCriterion("distance")
-        		.withLinkageMethod("ward")        		
-        		, jsonRpcContext);
-        	
-        	// Build list of biclusters
-        	List<Bicluster> biclusters = new ArrayList<Bicluster>();
-        	for(List<String> biItemGuids: res.getBiclusters()) {
-        		Bicluster bic = new Bicluster()
-        				.withCompendiumGuid(cmp.getGuid())
-        				.withConditionGuids(null)
-        				.withFeatureGuids(biItemGuids)
-        				.withGuid("BIC:" + System.currentTimeMillis() + "_" + ((int)(Math.random()*1000)))
-        				.withKeappGuid(KEAPP_GUID);
-        		biclusters.add(bic);
-        	}
-        	
-        	// Store biclusters
-        	reClient.storeBiclusters(
-        			new StoreBiclustersParams()
-        			.withBiclusters(biclusters)
-        			, jsonRpcContext);
-        	
-        }
-        
+        returnVal = impl.constructExprBiclusters( params,  authPart);
         //END construct_expr_biclusters
         return returnVal;
     }
