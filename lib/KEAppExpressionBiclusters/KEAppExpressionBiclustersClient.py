@@ -46,14 +46,6 @@ class KEAppExpressionBiclusters(object):
             'KEAppExpressionBiclusters.construct_expr_biclusters',
             [params], self._service_ver, context)
 
-    def get_conifg(self, context=None):
-        """
-        :returns: instance of mapping from String to String
-        """
-        return self._client.call_method(
-            'KEAppExpressionBiclusters.get_conifg',
-            [], self._service_ver, context)
-
     def status(self, context=None):
         return self._client.call_method('KEAppExpressionBiclusters.status',
                                         [], self._service_ver, context)

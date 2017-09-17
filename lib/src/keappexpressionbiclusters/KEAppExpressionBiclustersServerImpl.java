@@ -25,13 +25,11 @@ import us.kbase.common.service.JsonClientException;
 import us.kbase.common.service.UnauthorizedException;
 
 public class KEAppExpressionBiclustersServerImpl {
-    private URL wsUrl = null;
     private URL srvWizUrl = null;
     private URL callbackUrl = null;    
 	
 	
     public KEAppExpressionBiclustersServerImpl(Map<String, String> config) throws MalformedURLException {
-        wsUrl = new URL(config.get("workspace-url"));
         srvWizUrl = new URL(config.get("srv-wiz-url"));
         callbackUrl = new URL(System.getenv("SDK_CALLBACK_URL"));
 
