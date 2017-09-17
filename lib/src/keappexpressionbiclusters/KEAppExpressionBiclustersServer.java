@@ -10,14 +10,6 @@ import us.kbase.common.service.JsonServerSyslog;
 import us.kbase.common.service.RpcContext;
 
 //BEGIN_HEADER
-import java.io.IOException;
-import java.util.ArrayList;
-import us.kbase.common.service.UnauthorizedException;
-import java.util.List;
-
-import java.net.URL;
-import kbkeutil.*;
-import kbaserelationengine.*;
 //END_HEADER
 
 /**
@@ -30,7 +22,7 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
     private static final String version = "0.0.1";
     private static final String gitUrl = "https://github.com/psnovichkov/KEAppExpressionBiclusters.git";
-    private static final String gitCommitHash = "2ded823513ea49344bdefb4a6a552c9bc7aa8ffe";
+    private static final String gitCommitHash = "06ea242b5e0b7776b7f994014e55b54dbd326d74";
 
     //BEGIN_CLASS_HEADER
     KEAppExpressionBiclustersServerImpl impl;
@@ -56,6 +48,21 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
         //BEGIN construct_expr_biclusters
         returnVal = impl.constructExprBiclusters( params,  authPart);
         //END construct_expr_biclusters
+        return returnVal;
+    }
+
+    /**
+     * <p>Original spec-file function name: get_conifg</p>
+     * <pre>
+     * </pre>
+     * @return   instance of mapping from String to String
+     */
+    @JsonServerMethod(rpc = "KEAppExpressionBiclusters.get_conifg", async=true)
+    public Map<String,String> getConifg(AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
+        Map<String,String> returnVal = null;
+        //BEGIN get_conifg
+        returnVal = config;
+        //END get_conifg
         return returnVal;
     }
     @JsonServerMethod(rpc = "KEAppExpressionBiclusters.status")
