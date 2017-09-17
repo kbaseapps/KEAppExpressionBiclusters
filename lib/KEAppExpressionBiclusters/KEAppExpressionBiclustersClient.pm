@@ -202,6 +202,75 @@ ConstructExprBiclustersOutput is a reference to a hash where the following keys 
     }
 }
  
+
+
+=head2 get_conifg
+
+  $return = $obj->get_conifg()
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$return is a reference to a hash where the key is a string and the value is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$return is a reference to a hash where the key is a string and the value is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub get_conifg
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 0)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function get_conifg (received $n, expecting 0)");
+    }
+
+    my $url = $self->{url};
+    my $result = $self->{client}->call($url, $self->{headers}, {
+	    method => "KEAppExpressionBiclusters.get_conifg",
+	    params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'get_conifg',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method get_conifg",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'get_conifg',
+				       );
+    }
+}
+ 
   
 sub status
 {
@@ -245,16 +314,16 @@ sub version {
             Bio::KBase::Exceptions::JSONRPC->throw(
                 error => $result->error_message,
                 code => $result->content->{code},
-                method_name => 'construct_expr_biclusters',
+                method_name => 'get_conifg',
             );
         } else {
             return wantarray ? @{$result->result} : $result->result->[0];
         }
     } else {
         Bio::KBase::Exceptions::HTTP->throw(
-            error => "Error invoking method construct_expr_biclusters",
+            error => "Error invoking method get_conifg",
             status_line => $self->{client}->status_line,
-            method_name => 'construct_expr_biclusters',
+            method_name => 'get_conifg',
         );
     }
 }
