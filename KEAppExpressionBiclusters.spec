@@ -18,5 +18,4 @@ module KEAppExpressionBiclusters {
     funcdef construct_expr_biclusters(ConstructExprBiclustersInput params)
         returns (ConstructExprBiclustersOutput) authentication required;
         
-    funcdef get_conifg() returns(mapping<string,string>) authentication required;
 };
