@@ -5,17 +5,22 @@ A KBase module: KEAppExpressionBiclusters
 module KEAppExpressionBiclusters {
 
     typedef structure {
-    } ConstructExprBiclustersInput;
-
-    typedef structure {
 		int new_re_nodes;    
 		int updated_re_nodes;
 		int new_re_links;
 		int properties_set;			
 		string message;    
-    } ConstructExprBiclustersOutput;
+    } KEAppOutput;
 
-    funcdef construct_expr_biclusters(ConstructExprBiclustersInput params)
-        returns (ConstructExprBiclustersOutput) authentication required;
+    typedef structure {
+    } ConstructExprBiclustersParams;
+    funcdef construct_expr_biclusters(ConstructExprBiclustersParams params)
+        returns (KEAppOutput) authentication required;
         
+    typedef structure {
+    } EnrichGoterms4exprBiclustersParams;
+    funcdef enrich_goterms4expr_biclusters(EnrichGoterms4exprBiclustersParams params)
+        returns (KEAppOutput) authentication required;
+
+
 };
