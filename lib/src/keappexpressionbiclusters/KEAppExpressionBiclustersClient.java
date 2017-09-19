@@ -166,16 +166,33 @@ public class KEAppExpressionBiclustersClient {
      * <p>Original spec-file function name: construct_expr_biclusters</p>
      * <pre>
      * </pre>
-     * @param   params   instance of type {@link keappexpressionbiclusters.ConstructExprBiclustersInput ConstructExprBiclustersInput}
-     * @return   instance of type {@link keappexpressionbiclusters.ConstructExprBiclustersOutput ConstructExprBiclustersOutput}
+     * @param   params   instance of type {@link keappexpressionbiclusters.ConstructExprBiclustersParams ConstructExprBiclustersParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public ConstructExprBiclustersOutput constructExprBiclusters(ConstructExprBiclustersInput params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public KEAppOutput constructExprBiclusters(ConstructExprBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         args.add(params);
-        TypeReference<List<ConstructExprBiclustersOutput>> retType = new TypeReference<List<ConstructExprBiclustersOutput>>() {};
-        List<ConstructExprBiclustersOutput> res = caller.jsonrpcCall("KEAppExpressionBiclusters.construct_expr_biclusters", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        TypeReference<List<KEAppOutput>> retType = new TypeReference<List<KEAppOutput>>() {};
+        List<KEAppOutput> res = caller.jsonrpcCall("KEAppExpressionBiclusters.construct_expr_biclusters", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: enrich_goterms4expr_biclusters</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.EnrichGoterms4exprBiclustersParams EnrichGoterms4exprBiclustersParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public KEAppOutput enrichGoterms4exprBiclusters(EnrichGoterms4exprBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<KEAppOutput>> retType = new TypeReference<List<KEAppOutput>>() {};
+        List<KEAppOutput> res = caller.jsonrpcCall("KEAppExpressionBiclusters.enrich_goterms4expr_biclusters", args, retType, true, true, jsonRpcContext, this.serviceVersion);
         return res.get(0);
     }
 

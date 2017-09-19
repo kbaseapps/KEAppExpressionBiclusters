@@ -119,10 +119,10 @@ sub new
 =begin html
 
 <pre>
-$params is a KEAppExpressionBiclusters.ConstructExprBiclustersInput
-$return is a KEAppExpressionBiclusters.ConstructExprBiclustersOutput
-ConstructExprBiclustersInput is a reference to a hash where the following keys are defined
-ConstructExprBiclustersOutput is a reference to a hash where the following keys are defined:
+$params is a KEAppExpressionBiclusters.ConstructExprBiclustersParams
+$return is a KEAppExpressionBiclusters.KEAppOutput
+ConstructExprBiclustersParams is a reference to a hash where the following keys are defined
+KEAppOutput is a reference to a hash where the following keys are defined:
 	new_re_nodes has a value which is an int
 	updated_re_nodes has a value which is an int
 	new_re_links has a value which is an int
@@ -135,10 +135,10 @@ ConstructExprBiclustersOutput is a reference to a hash where the following keys 
 
 =begin text
 
-$params is a KEAppExpressionBiclusters.ConstructExprBiclustersInput
-$return is a KEAppExpressionBiclusters.ConstructExprBiclustersOutput
-ConstructExprBiclustersInput is a reference to a hash where the following keys are defined
-ConstructExprBiclustersOutput is a reference to a hash where the following keys are defined:
+$params is a KEAppExpressionBiclusters.ConstructExprBiclustersParams
+$return is a KEAppExpressionBiclusters.KEAppOutput
+ConstructExprBiclustersParams is a reference to a hash where the following keys are defined
+KEAppOutput is a reference to a hash where the following keys are defined:
 	new_re_nodes has a value which is an int
 	updated_re_nodes has a value which is an int
 	new_re_links has a value which is an int
@@ -202,6 +202,102 @@ ConstructExprBiclustersOutput is a reference to a hash where the following keys 
     }
 }
  
+
+
+=head2 enrich_goterms4expr_biclusters
+
+  $return = $obj->enrich_goterms4expr_biclusters($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a KEAppExpressionBiclusters.EnrichGoterms4exprBiclustersParams
+$return is a KEAppExpressionBiclusters.KEAppOutput
+EnrichGoterms4exprBiclustersParams is a reference to a hash where the following keys are defined
+KEAppOutput is a reference to a hash where the following keys are defined:
+	new_re_nodes has a value which is an int
+	updated_re_nodes has a value which is an int
+	new_re_links has a value which is an int
+	properties_set has a value which is an int
+	message has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a KEAppExpressionBiclusters.EnrichGoterms4exprBiclustersParams
+$return is a KEAppExpressionBiclusters.KEAppOutput
+EnrichGoterms4exprBiclustersParams is a reference to a hash where the following keys are defined
+KEAppOutput is a reference to a hash where the following keys are defined:
+	new_re_nodes has a value which is an int
+	updated_re_nodes has a value which is an int
+	new_re_links has a value which is an int
+	properties_set has a value which is an int
+	message has a value which is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub enrich_goterms4expr_biclusters
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function enrich_goterms4expr_biclusters (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to enrich_goterms4expr_biclusters:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'enrich_goterms4expr_biclusters');
+	}
+    }
+
+    my $url = $self->{url};
+    my $result = $self->{client}->call($url, $self->{headers}, {
+	    method => "KEAppExpressionBiclusters.enrich_goterms4expr_biclusters",
+	    params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'enrich_goterms4expr_biclusters',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method enrich_goterms4expr_biclusters",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'enrich_goterms4expr_biclusters',
+				       );
+    }
+}
+ 
   
 sub status
 {
@@ -245,16 +341,16 @@ sub version {
             Bio::KBase::Exceptions::JSONRPC->throw(
                 error => $result->error_message,
                 code => $result->content->{code},
-                method_name => 'construct_expr_biclusters',
+                method_name => 'enrich_goterms4expr_biclusters',
             );
         } else {
             return wantarray ? @{$result->result} : $result->result->[0];
         }
     } else {
         Bio::KBase::Exceptions::HTTP->throw(
-            error => "Error invoking method construct_expr_biclusters",
+            error => "Error invoking method enrich_goterms4expr_biclusters",
             status_line => $self->{client}->status_line,
-            method_name => 'construct_expr_biclusters',
+            method_name => 'enrich_goterms4expr_biclusters',
         );
     }
 }
@@ -291,7 +387,45 @@ sub _validate_version {
 
 
 
-=head2 ConstructExprBiclustersInput
+=head2 KEAppOutput
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+new_re_nodes has a value which is an int
+updated_re_nodes has a value which is an int
+new_re_links has a value which is an int
+properties_set has a value which is an int
+message has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+new_re_nodes has a value which is an int
+updated_re_nodes has a value which is an int
+new_re_links has a value which is an int
+properties_set has a value which is an int
+message has a value which is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 ConstructExprBiclustersParams
 
 =over 4
 
@@ -317,7 +451,7 @@ a reference to a hash where the following keys are defined
 
 
 
-=head2 ConstructExprBiclustersOutput
+=head2 EnrichGoterms4exprBiclustersParams
 
 =over 4
 
@@ -328,26 +462,14 @@ a reference to a hash where the following keys are defined
 =begin html
 
 <pre>
-a reference to a hash where the following keys are defined:
-new_re_nodes has a value which is an int
-updated_re_nodes has a value which is an int
-new_re_links has a value which is an int
-properties_set has a value which is an int
-message has a value which is a string
-
+a reference to a hash where the following keys are defined
 </pre>
 
 =end html
 
 =begin text
 
-a reference to a hash where the following keys are defined:
-new_re_nodes has a value which is an int
-updated_re_nodes has a value which is an int
-new_re_links has a value which is an int
-properties_set has a value which is an int
-message has a value which is a string
-
+a reference to a hash where the following keys are defined
 
 =end text
 

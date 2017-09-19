@@ -22,7 +22,7 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
     private static final String version = "0.0.1";
     private static final String gitUrl = "https://github.com/psnovichkov/KEAppExpressionBiclusters.git";
-    private static final String gitCommitHash = "ed1a544c4f4958d9ec043b584416ff88517bfb5d";
+    private static final String gitCommitHash = "7a8ea9df5754b92dc8ce159810303cae6b0ea2d3";
 
     //BEGIN_CLASS_HEADER
     KEAppExpressionBiclustersServerImpl impl;
@@ -39,15 +39,31 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
      * <p>Original spec-file function name: construct_expr_biclusters</p>
      * <pre>
      * </pre>
-     * @param   params   instance of type {@link keappexpressionbiclusters.ConstructExprBiclustersInput ConstructExprBiclustersInput}
-     * @return   instance of type {@link keappexpressionbiclusters.ConstructExprBiclustersOutput ConstructExprBiclustersOutput}
+     * @param   params   instance of type {@link keappexpressionbiclusters.ConstructExprBiclustersParams ConstructExprBiclustersParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
      */
     @JsonServerMethod(rpc = "KEAppExpressionBiclusters.construct_expr_biclusters", async=true)
-    public ConstructExprBiclustersOutput constructExprBiclusters(ConstructExprBiclustersInput params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
-        ConstructExprBiclustersOutput returnVal = null;
+    public KEAppOutput constructExprBiclusters(ConstructExprBiclustersParams params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
+        KEAppOutput returnVal = null;
         //BEGIN construct_expr_biclusters
         returnVal = impl.constructExprBiclusters( params,  authPart);
         //END construct_expr_biclusters
+        return returnVal;
+    }
+
+    /**
+     * <p>Original spec-file function name: enrich_goterms4expr_biclusters</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.EnrichGoterms4exprBiclustersParams EnrichGoterms4exprBiclustersParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     */
+    @JsonServerMethod(rpc = "KEAppExpressionBiclusters.enrich_goterms4expr_biclusters", async=true)
+    public KEAppOutput enrichGoterms4exprBiclusters(EnrichGoterms4exprBiclustersParams params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
+        KEAppOutput returnVal = null;
+        //BEGIN enrich_goterms4expr_biclusters
+        returnVal = impl.enrichGoterms4exprBiclusters(params, authPart);
+        //END enrich_goterms4expr_biclusters
         return returnVal;
     }
     @JsonServerMethod(rpc = "KEAppExpressionBiclusters.status")

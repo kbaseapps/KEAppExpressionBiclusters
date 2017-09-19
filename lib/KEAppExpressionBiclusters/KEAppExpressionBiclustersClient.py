@@ -35,15 +35,28 @@ class KEAppExpressionBiclusters(object):
 
     def construct_expr_biclusters(self, params, context=None):
         """
-        :param params: instance of type "ConstructExprBiclustersInput" ->
+        :param params: instance of type "ConstructExprBiclustersParams" ->
            structure:
-        :returns: instance of type "ConstructExprBiclustersOutput" ->
-           structure: parameter "new_re_nodes" of Long, parameter
-           "updated_re_nodes" of Long, parameter "new_re_links" of Long,
-           parameter "properties_set" of Long, parameter "message" of String
+        :returns: instance of type "KEAppOutput" -> structure: parameter
+           "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
+           parameter "new_re_links" of Long, parameter "properties_set" of
+           Long, parameter "message" of String
         """
         return self._client.call_method(
             'KEAppExpressionBiclusters.construct_expr_biclusters',
+            [params], self._service_ver, context)
+
+    def enrich_goterms4expr_biclusters(self, params, context=None):
+        """
+        :param params: instance of type "EnrichGoterms4exprBiclustersParams"
+           -> structure:
+        :returns: instance of type "KEAppOutput" -> structure: parameter
+           "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
+           parameter "new_re_links" of Long, parameter "properties_set" of
+           Long, parameter "message" of String
+        """
+        return self._client.call_method(
+            'KEAppExpressionBiclusters.enrich_goterms4expr_biclusters',
             [params], self._service_ver, context)
 
     def status(self, context=None):
