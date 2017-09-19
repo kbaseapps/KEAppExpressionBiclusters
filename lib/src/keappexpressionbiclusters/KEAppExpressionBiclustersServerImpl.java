@@ -196,20 +196,16 @@ public class KEAppExpressionBiclustersServerImpl {
         	// Process each bicluster
         	for(Bicluster b: biclusters){
         		
-    			//TODO: remove this test
-    			app.withRelationsCreated(app.getRelationsCreated() + 1);
-    	        reClient.storeKEAppDescriptor(new StoreKEAppDescriptorParams().withApp(app));			
         		
         		// Do enrichment for features from a bicluster
         		List<String> sampleSet = b.getFeatureGuids();
         		if(sampleSet.size() == 0) continue;
-        		
+        		        		
     			//TODO: remove this test
-    			app.setPropertiesSet(app.getPropertiesSet() + 1);
+    			app.withRelationsCreated(app.getRelationsCreated() + 1);
     	        reClient.storeKEAppDescriptor(new StoreKEAppDescriptorParams().withApp(app));			
         		
-        		
-				Long propagation = 1L;
+				Long propagation = 0L;
 				EnrichOnthologyOutput res = kmClient.enrichOnthology(
         				new EnrichOnthologyParams()
         				.withSampleSet(sampleSet)
@@ -219,6 +215,11 @@ public class KEAppExpressionBiclustersServerImpl {
 				
 				// Do not do anything if there are no enriched terms
 				if(res.getEnrichmentProfile().size() == 0) continue;
+				
+    			//TODO: remove this test
+    			app.setPropertiesSet(app.getPropertiesSet() + 1);
+    	        reClient.storeKEAppDescriptor(new StoreKEAppDescriptorParams().withApp(app));			
+				
 				
 				// Build profile
 				List<kbaserelationengine.TermEnrichment> terms = new ArrayList<kbaserelationengine.TermEnrichment>();				
