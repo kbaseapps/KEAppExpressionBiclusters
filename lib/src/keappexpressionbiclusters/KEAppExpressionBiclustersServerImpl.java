@@ -16,7 +16,6 @@ import kbaserelationengine.FeatureTerms;
 import kbaserelationengine.GetBiclustersParams;
 import kbaserelationengine.GetCompendiumDescriptorsParams;
 import kbaserelationengine.GetFeatureTermsParams;
-import kbaserelationengine.GetKEAppDescriptorParams;
 import kbaserelationengine.GraphUpdateStat;
 import kbaserelationengine.KBaseRelationEngineServiceClient;
 import kbaserelationengine.KEAppDescriptor;
@@ -58,23 +57,36 @@ public class KEAppExpressionBiclustersServerImpl {
     }
 
 	public KEAppOutput constructExprBiclusters(ConstructExprBiclustersParams params,
-			AuthToken authPart) throws IOException, JsonClientException {		
+			AuthToken authPart) throws IOException, JsonClientException {
+
+		// TODO remove  when fixed
+		params.withAppGuid("KEApp1");
+		
         final String dataType = "gene expression";        
         return constructBiclusters(params.getAppGuid(), dataType, authPart);
 	}
 	
 	public KEAppOutput enrichGoterms4exprBiclusters(EnrichGoterms4exprBiclustersParams params, AuthToken authPart) throws IOException, JsonClientException {
-        final String dataType = "gene expression";
+		// TODO remove  when fixed
+		params.withAppGuid("KEApp2");
+
+		final String dataType = "gene expression";
 		return enrichGoterms4Biclusters(params.getAppGuid(), dataType, authPart);
 	}
 		
 	public KEAppOutput constructFitnessBiclusters(ConstructFitnessBiclustersParams params, AuthToken authPart) throws IOException, JsonClientException {
+		// TODO remove  when fixed
+		params.withAppGuid("KEApp3");
+
 		final String dataType = "gene knockout fitness";
         return constructBiclusters(params.getAppGuid(), dataType, authPart);
 	}
 
 	public KEAppOutput enrichGoterms4fitnessBiclusters(EnrichGoterms4fitnessBiclustersParams params,
 			AuthToken authPart) throws IOException, JsonClientException {
+		// TODO remove  when fixed
+		params.withAppGuid("KEApp4");
+
 		final String dataType = "gene knockout fitness";
 		return enrichGoterms4Biclusters(params.getAppGuid(), dataType, authPart);
 	}		
@@ -82,8 +94,8 @@ public class KEAppExpressionBiclustersServerImpl {
 	public KEAppOutput orthologsEnrichGoterms4expr(OrthologsEnrichGoterms4ExpressionParams params, AuthToken authPart) {
 		// TODO Auto-generated method stub
 		return new KEAppOutput()
-		.withNewReNodes(0L)
-		.withNewReLinks(0L)
+		.withNewReNodes(10L)
+		.withNewReLinks(20L)
 		.withUpdatedReNodes(0L)
 		.withPropertiesSet(0L)
 		.withMessage("");   
@@ -92,8 +104,8 @@ public class KEAppExpressionBiclustersServerImpl {
 	public KEAppOutput orthologsEnrichGoterms4fitness(OrthologsEnrichGoterms4FitnessParams params, AuthToken authPart) {
 		// TODO Auto-generated method stub
 		return new KEAppOutput()
-		.withNewReNodes(0L)
-		.withNewReLinks(0L)
+		.withNewReNodes(10L)
+		.withNewReLinks(20L)
 		.withUpdatedReNodes(0L)
 		.withPropertiesSet(0L)
 		.withMessage("");   
@@ -102,8 +114,8 @@ public class KEAppExpressionBiclustersServerImpl {
 	public KEAppOutput orthologsKbaseEnrichGoterms(OrthologsKbaseEnrichGotermsParams params, AuthToken authPart) {
 		// TODO Auto-generated method stub
 		return new KEAppOutput()
-		.withNewReNodes(0L)
-		.withNewReLinks(0L)
+		.withNewReNodes(10L)
+		.withNewReLinks(20L)
 		.withUpdatedReNodes(0L)
 		.withPropertiesSet(0L)
 		.withMessage("");   
@@ -228,6 +240,7 @@ public class KEAppExpressionBiclustersServerImpl {
 							.withSampleCount(te.getSampleCount())
 							.withTermGuid(termGuid)
 							.withTotalCount(te.getTotalCount());
+					System.out.println("term: " + t);
 					terms.add(t);
 				}				
 				TermEnrichmentProfile profile = new TermEnrichmentProfile()
