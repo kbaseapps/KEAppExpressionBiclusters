@@ -205,7 +205,9 @@ public class KEAppExpressionBiclustersServerImpl {
         		// Do enrichment for features from a bicluster
         		List<String> sampleSet = b.getFeatureGuids();
         		if(sampleSet.size() == 0) continue;
-        		        		
+        		        	
+        		System.out.println("Number of genes in the sample:" + sampleSet.size());
+        		
     			//TODO: remove this test
     			app.withRelationsCreated(app.getRelationsCreated() + 1);
     	        reClient.storeKEAppDescriptor(new StoreKEAppDescriptorParams().withApp(app));			
