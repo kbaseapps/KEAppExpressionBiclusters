@@ -22,7 +22,7 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
     private static final String version = "0.0.1";
     private static final String gitUrl = "https://github.com/psnovichkov/KEAppExpressionBiclusters.git";
-    private static final String gitCommitHash = "7a8ea9df5754b92dc8ce159810303cae6b0ea2d3";
+    private static final String gitCommitHash = "dae84aceb14f2cabda57c3f80719b729589d8097";
 
     //BEGIN_CLASS_HEADER
     KEAppExpressionBiclustersServerImpl impl;
@@ -64,6 +64,86 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
         //BEGIN enrich_goterms4expr_biclusters
         returnVal = impl.enrichGoterms4exprBiclusters(params, authPart);
         //END enrich_goterms4expr_biclusters
+        return returnVal;
+    }
+
+    /**
+     * <p>Original spec-file function name: construct_fitness_biclusters</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.ConstructFitnessBiclustersParams ConstructFitnessBiclustersParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     */
+    @JsonServerMethod(rpc = "KEAppExpressionBiclusters.construct_fitness_biclusters", async=true)
+    public KEAppOutput constructFitnessBiclusters(ConstructFitnessBiclustersParams params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
+        KEAppOutput returnVal = null;
+        //BEGIN construct_fitness_biclusters
+        returnVal = impl.constructFitnessBiclusters( params,  authPart);        
+        //END construct_fitness_biclusters
+        return returnVal;
+    }
+
+    /**
+     * <p>Original spec-file function name: enrich_goterms4fitness_biclusters</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.EnrichGoterms4fitnessBiclustersParams EnrichGoterms4fitnessBiclustersParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     */
+    @JsonServerMethod(rpc = "KEAppExpressionBiclusters.enrich_goterms4fitness_biclusters", async=true)
+    public KEAppOutput enrichGoterms4fitnessBiclusters(EnrichGoterms4fitnessBiclustersParams params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
+        KEAppOutput returnVal = null;
+        //BEGIN enrich_goterms4fitness_biclusters
+        returnVal = impl.enrichGoterms4fitnessBiclusters( params,  authPart);                
+        //END enrich_goterms4fitness_biclusters
+        return returnVal;
+    }
+
+    /**
+     * <p>Original spec-file function name: orthologs_enrich_goterms4expr</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.OrthologsEnrichGoterms4ExpressionParams OrthologsEnrichGoterms4ExpressionParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     */
+    @JsonServerMethod(rpc = "KEAppExpressionBiclusters.orthologs_enrich_goterms4expr", async=true)
+    public KEAppOutput orthologsEnrichGoterms4expr(OrthologsEnrichGoterms4ExpressionParams params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
+        KEAppOutput returnVal = null;
+        //BEGIN orthologs_enrich_goterms4expr
+        returnVal = impl.orthologsEnrichGoterms4expr( params,  authPart);                        
+        //END orthologs_enrich_goterms4expr
+        return returnVal;
+    }
+
+    /**
+     * <p>Original spec-file function name: orthologs_enrich_goterms4fitness</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.OrthologsEnrichGoterms4FitnessParams OrthologsEnrichGoterms4FitnessParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     */
+    @JsonServerMethod(rpc = "KEAppExpressionBiclusters.orthologs_enrich_goterms4fitness", async=true)
+    public KEAppOutput orthologsEnrichGoterms4fitness(OrthologsEnrichGoterms4FitnessParams params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
+        KEAppOutput returnVal = null;
+        //BEGIN orthologs_enrich_goterms4fitness
+        returnVal = impl.orthologsEnrichGoterms4fitness( params,  authPart);                                
+        //END orthologs_enrich_goterms4fitness
+        return returnVal;
+    }
+
+    /**
+     * <p>Original spec-file function name: orthologs_kbase_enrich_goterms</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.OrthologsKbaseEnrichGotermsParams OrthologsKbaseEnrichGotermsParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     */
+    @JsonServerMethod(rpc = "KEAppExpressionBiclusters.orthologs_kbase_enrich_goterms", async=true)
+    public KEAppOutput orthologsKbaseEnrichGoterms(OrthologsKbaseEnrichGotermsParams params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
+        KEAppOutput returnVal = null;
+        //BEGIN orthologs_kbase_enrich_goterms
+        returnVal = impl.orthologsKbaseEnrichGoterms( params,  authPart);                                        
+        //END orthologs_kbase_enrich_goterms
         return returnVal;
     }
     @JsonServerMethod(rpc = "KEAppExpressionBiclusters.status")

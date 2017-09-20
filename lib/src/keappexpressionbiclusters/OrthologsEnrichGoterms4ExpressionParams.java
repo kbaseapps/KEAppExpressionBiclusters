@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
 /**
- * <p>Original spec-file type: EnrichGoterms4exprBiclustersParams</p>
+ * <p>Original spec-file type: OrthologsEnrichGoterms4ExpressionParams</p>
  * 
  * 
  */
@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
     "app_guid"
 })
-public class EnrichGoterms4exprBiclustersParams {
+public class OrthologsEnrichGoterms4ExpressionParams {
 
     @JsonProperty("app_guid")
     private String appGuid;
@@ -37,7 +37,7 @@ public class EnrichGoterms4exprBiclustersParams {
         this.appGuid = appGuid;
     }
 
-    public EnrichGoterms4exprBiclustersParams withAppGuid(String appGuid) {
+    public OrthologsEnrichGoterms4ExpressionParams withAppGuid(String appGuid) {
         this.appGuid = appGuid;
         return this;
     }
@@ -54,7 +54,7 @@ public class EnrichGoterms4exprBiclustersParams {
 
     @Override
     public String toString() {
-        return ((((("EnrichGoterms4exprBiclustersParams"+" [appGuid=")+ appGuid)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((("OrthologsEnrichGoterms4ExpressionParams"+" [appGuid=")+ appGuid)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

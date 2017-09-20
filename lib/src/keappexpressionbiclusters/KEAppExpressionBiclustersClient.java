@@ -196,6 +196,91 @@ public class KEAppExpressionBiclustersClient {
         return res.get(0);
     }
 
+    /**
+     * <p>Original spec-file function name: construct_fitness_biclusters</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.ConstructFitnessBiclustersParams ConstructFitnessBiclustersParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public KEAppOutput constructFitnessBiclusters(ConstructFitnessBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<KEAppOutput>> retType = new TypeReference<List<KEAppOutput>>() {};
+        List<KEAppOutput> res = caller.jsonrpcCall("KEAppExpressionBiclusters.construct_fitness_biclusters", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: enrich_goterms4fitness_biclusters</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.EnrichGoterms4fitnessBiclustersParams EnrichGoterms4fitnessBiclustersParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public KEAppOutput enrichGoterms4fitnessBiclusters(EnrichGoterms4fitnessBiclustersParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<KEAppOutput>> retType = new TypeReference<List<KEAppOutput>>() {};
+        List<KEAppOutput> res = caller.jsonrpcCall("KEAppExpressionBiclusters.enrich_goterms4fitness_biclusters", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: orthologs_enrich_goterms4expr</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.OrthologsEnrichGoterms4ExpressionParams OrthologsEnrichGoterms4ExpressionParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public KEAppOutput orthologsEnrichGoterms4expr(OrthologsEnrichGoterms4ExpressionParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<KEAppOutput>> retType = new TypeReference<List<KEAppOutput>>() {};
+        List<KEAppOutput> res = caller.jsonrpcCall("KEAppExpressionBiclusters.orthologs_enrich_goterms4expr", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: orthologs_enrich_goterms4fitness</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.OrthologsEnrichGoterms4FitnessParams OrthologsEnrichGoterms4FitnessParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public KEAppOutput orthologsEnrichGoterms4fitness(OrthologsEnrichGoterms4FitnessParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<KEAppOutput>> retType = new TypeReference<List<KEAppOutput>>() {};
+        List<KEAppOutput> res = caller.jsonrpcCall("KEAppExpressionBiclusters.orthologs_enrich_goterms4fitness", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: orthologs_kbase_enrich_goterms</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.OrthologsKbaseEnrichGotermsParams OrthologsKbaseEnrichGotermsParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public KEAppOutput orthologsKbaseEnrichGoterms(OrthologsKbaseEnrichGotermsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<KEAppOutput>> retType = new TypeReference<List<KEAppOutput>>() {};
+        List<KEAppOutput> res = caller.jsonrpcCall("KEAppExpressionBiclusters.orthologs_kbase_enrich_goterms", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
     public Map<String, Object> status(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         List<Object> args = new ArrayList<Object>();
         TypeReference<List<Map<String, Object>>> retType = new TypeReference<List<Map<String, Object>>>() {};

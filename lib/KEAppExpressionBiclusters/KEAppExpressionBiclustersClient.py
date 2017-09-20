@@ -36,7 +36,7 @@ class KEAppExpressionBiclusters(object):
     def construct_expr_biclusters(self, params, context=None):
         """
         :param params: instance of type "ConstructExprBiclustersParams" ->
-           structure:
+           structure: parameter "app_guid" of String
         :returns: instance of type "KEAppOutput" -> structure: parameter
            "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
            parameter "new_re_links" of Long, parameter "properties_set" of
@@ -49,7 +49,7 @@ class KEAppExpressionBiclusters(object):
     def enrich_goterms4expr_biclusters(self, params, context=None):
         """
         :param params: instance of type "EnrichGoterms4exprBiclustersParams"
-           -> structure:
+           -> structure: parameter "app_guid" of String
         :returns: instance of type "KEAppOutput" -> structure: parameter
            "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
            parameter "new_re_links" of Long, parameter "properties_set" of
@@ -57,6 +57,74 @@ class KEAppExpressionBiclusters(object):
         """
         return self._client.call_method(
             'KEAppExpressionBiclusters.enrich_goterms4expr_biclusters',
+            [params], self._service_ver, context)
+
+    def construct_fitness_biclusters(self, params, context=None):
+        """
+        :param params: instance of type "ConstructFitnessBiclustersParams" ->
+           structure: parameter "app_guid" of String
+        :returns: instance of type "KEAppOutput" -> structure: parameter
+           "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
+           parameter "new_re_links" of Long, parameter "properties_set" of
+           Long, parameter "message" of String
+        """
+        return self._client.call_method(
+            'KEAppExpressionBiclusters.construct_fitness_biclusters',
+            [params], self._service_ver, context)
+
+    def enrich_goterms4fitness_biclusters(self, params, context=None):
+        """
+        :param params: instance of type
+           "EnrichGoterms4fitnessBiclustersParams" -> structure: parameter
+           "app_guid" of String
+        :returns: instance of type "KEAppOutput" -> structure: parameter
+           "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
+           parameter "new_re_links" of Long, parameter "properties_set" of
+           Long, parameter "message" of String
+        """
+        return self._client.call_method(
+            'KEAppExpressionBiclusters.enrich_goterms4fitness_biclusters',
+            [params], self._service_ver, context)
+
+    def orthologs_enrich_goterms4expr(self, params, context=None):
+        """
+        :param params: instance of type
+           "OrthologsEnrichGoterms4ExpressionParams" -> structure: parameter
+           "app_guid" of String
+        :returns: instance of type "KEAppOutput" -> structure: parameter
+           "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
+           parameter "new_re_links" of Long, parameter "properties_set" of
+           Long, parameter "message" of String
+        """
+        return self._client.call_method(
+            'KEAppExpressionBiclusters.orthologs_enrich_goterms4expr',
+            [params], self._service_ver, context)
+
+    def orthologs_enrich_goterms4fitness(self, params, context=None):
+        """
+        :param params: instance of type
+           "OrthologsEnrichGoterms4FitnessParams" -> structure: parameter
+           "app_guid" of String
+        :returns: instance of type "KEAppOutput" -> structure: parameter
+           "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
+           parameter "new_re_links" of Long, parameter "properties_set" of
+           Long, parameter "message" of String
+        """
+        return self._client.call_method(
+            'KEAppExpressionBiclusters.orthologs_enrich_goterms4fitness',
+            [params], self._service_ver, context)
+
+    def orthologs_kbase_enrich_goterms(self, params, context=None):
+        """
+        :param params: instance of type "OrthologsKbaseEnrichGotermsParams"
+           -> structure: parameter "app_guid" of String
+        :returns: instance of type "KEAppOutput" -> structure: parameter
+           "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
+           parameter "new_re_links" of Long, parameter "properties_set" of
+           Long, parameter "message" of String
+        """
+        return self._client.call_method(
+            'KEAppExpressionBiclusters.orthologs_kbase_enrich_goterms',
             [params], self._service_ver, context)
 
     def status(self, context=None):
