@@ -197,6 +197,8 @@ public class KEAppExpressionBiclustersServerImpl {
         	int index = 0;
         	for(Bicluster b: biclusters){
         		
+        		System.out.println("Doing bicluster: " + b.getGuid());
+        		
         		//TODO: for testing, remove it
         		if(index++ > 3) break;
         		
@@ -229,13 +231,15 @@ public class KEAppExpressionBiclustersServerImpl {
 				for(Entry<String, TermEnrichment> tte : res.getEnrichmentProfile().entrySet()){
 					String termGuid = tte.getKey();
 					TermEnrichment te = tte.getValue();
-					terms.add(new kbaserelationengine.TermEnrichment()
+					kbaserelationengine.TermEnrichment t = 
+							new kbaserelationengine.TermEnrichment()
 							.withExpectedCount(te.getExpectedCount())
 							.withPValue(te.getPValue())
 							.withSampleCount(te.getSampleCount())
 							.withTermGuid(termGuid)
-							.withTotalCount(te.getTotalCount())
-							);
+							.withTotalCount(te.getTotalCount());
+					terms.add(t);
+					System.out.println("TermEnrichment:" + t);
 				}				
 				TermEnrichmentProfile profile = new TermEnrichmentProfile()
 						.withGuid("GOP:" + System.currentTimeMillis() + "_" + (profileId++))
