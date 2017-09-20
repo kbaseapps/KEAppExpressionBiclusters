@@ -525,6 +525,64 @@ public class KbKeUtilClient {
         }
     }
 
+    /**
+     * <p>Original spec-file function name: calc_onthology_dist</p>
+     * <pre>
+     * calc_onthology_dist: calculate onthology distance
+     *                      (sum of steps for each node in onthology_pair travels to 
+     *                       the nearest common ancestor node)
+     *                      NOTE: return inf if no common ancestor node found
+     * </pre>
+     * @param   params   instance of type {@link kbkeutil.CalcOnthologyDistParams CalcOnthologyDistParams}
+     * @return   parameter "returnVal" of type {@link kbkeutil.CalcOnthologyDistOutput CalcOnthologyDistOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    protected String _calcOnthologyDistSubmit(CalcOnthologyDistParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        if (this.serviceVersion != null) {
+            if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
+                jsonRpcContext = new RpcContext[] {new RpcContext()};
+            jsonRpcContext[0].getAdditionalProperties().put("service_ver", this.serviceVersion);
+        }
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
+        List<String> res = caller.jsonrpcCall("kb_ke_util._calc_onthology_dist_submit", args, retType, true, true, jsonRpcContext);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: calc_onthology_dist</p>
+     * <pre>
+     * calc_onthology_dist: calculate onthology distance
+     *                      (sum of steps for each node in onthology_pair travels to 
+     *                       the nearest common ancestor node)
+     *                      NOTE: return inf if no common ancestor node found
+     * </pre>
+     * @param   params   instance of type {@link kbkeutil.CalcOnthologyDistParams CalcOnthologyDistParams}
+     * @return   parameter "returnVal" of type {@link kbkeutil.CalcOnthologyDistOutput CalcOnthologyDistOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public CalcOnthologyDistOutput calcOnthologyDist(CalcOnthologyDistParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        String jobId = _calcOnthologyDistSubmit(params, jsonRpcContext);
+        TypeReference<List<JobState<List<CalcOnthologyDistOutput>>>> retType = new TypeReference<List<JobState<List<CalcOnthologyDistOutput>>>>() {};
+        long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
+        while (true) {
+            if (Thread.currentThread().isInterrupted())
+                throw new JsonClientException("Thread was interrupted");
+            try { 
+                Thread.sleep(asyncJobCheckTimeMs);
+            } catch(Exception ex) {
+                throw new JsonClientException("Thread was interrupted", ex);
+            }
+            asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
+            JobState<List<CalcOnthologyDistOutput>> res = _checkJob(jobId, retType);
+            if (res.getFinished() != 0L)
+                return res.getResult().get(0);
+        }
+    }
+
     public Map<String, Object> status(RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         if (this.serviceVersion != null) {
             if (jsonRpcContext == null || jsonRpcContext.length == 0 || jsonRpcContext[0] == null)
