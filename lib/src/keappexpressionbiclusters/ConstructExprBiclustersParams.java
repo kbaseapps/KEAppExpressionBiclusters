@@ -7,6 +7,7 @@ import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 
@@ -18,11 +19,28 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("com.googlecode.jsonschema2pojo")
 @JsonPropertyOrder({
-
+    "app_guid"
 })
 public class ConstructExprBiclustersParams {
 
+    @JsonProperty("app_guid")
+    private String appGuid;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("app_guid")
+    public String getAppGuid() {
+        return appGuid;
+    }
+
+    @JsonProperty("app_guid")
+    public void setAppGuid(String appGuid) {
+        this.appGuid = appGuid;
+    }
+
+    public ConstructExprBiclustersParams withAppGuid(String appGuid) {
+        this.appGuid = appGuid;
+        return this;
+    }
 
     @JsonAnyGetter
     public Map<String, Object> getAdditionalProperties() {
@@ -36,7 +54,7 @@ public class ConstructExprBiclustersParams {
 
     @Override
     public String toString() {
-        return ((("ConstructExprBiclustersParams"+" [additionalProperties=")+ additionalProperties)+"]");
+        return ((((("ConstructExprBiclustersParams"+" [appGuid=")+ appGuid)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }
