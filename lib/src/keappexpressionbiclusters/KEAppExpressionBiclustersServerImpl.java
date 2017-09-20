@@ -122,7 +122,7 @@ public class KEAppExpressionBiclustersServerImpl {
         	// Update app state
             app
         	.withNodesCreated(app.getNodesCreated() + ret.getNodesCreated())
-        	.withRelationsCreated(app.getNodesCreated() + ret.getRelationshipsCreated())
+        	.withRelationsCreated(app.getRelationsCreated() + ret.getRelationshipsCreated())
         	.withPropertiesSet(app.getPropertiesSet() + ret.getPropertiesSet());
             
             reClient.storeKEAppDescriptor(new StoreKEAppDescriptorParams()
