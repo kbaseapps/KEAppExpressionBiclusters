@@ -194,8 +194,11 @@ public class KEAppExpressionBiclustersServerImpl {
         			.withCompendiumGuid(cmp.getGuid()));
         	
         	// Process each bicluster
+        	int index = 0;
         	for(Bicluster b: biclusters){
         		
+        		//TODO: for testing, remove it
+        		if(index++ > 3) break;
         		
         		// Do enrichment for features from a bicluster
         		List<String> sampleSet = b.getFeatureGuids();
