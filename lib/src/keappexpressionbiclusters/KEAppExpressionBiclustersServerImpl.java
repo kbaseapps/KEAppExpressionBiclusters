@@ -28,6 +28,7 @@ import kbkeutil.BuildBiclustersParams;
 import kbkeutil.EnrichOnthologyOutput;
 import kbkeutil.EnrichOnthologyParams;
 import kbkeutil.KbKeUtilClient;
+import kbkeutil.KbKeUtilServiceClient;
 import kbkeutil.TermEnrichment;
 import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonClientException;
@@ -42,8 +43,9 @@ public class KEAppExpressionBiclustersServerImpl {
         callbackUrl = new URL(System.getenv("SDK_CALLBACK_URL"));
 	}
 
-	private KbKeUtilClient getKEMathClient(AuthToken authPart) throws UnauthorizedException, IOException{
-        KbKeUtilClient client = new KbKeUtilClient(callbackUrl, authPart);
+	private KbKeUtilServiceClient getKEMathClient(AuthToken authPart) throws UnauthorizedException, IOException{
+//        KbKeUtilClient client = new KbKeUtilClient(callbackUrl, authPart);
+		KbKeUtilServiceClient client = new KbKeUtilServiceClient(srvWizUrl, authPart);
         client.setIsInsecureHttpConnectionAllowed(true);
         client.setServiceVersion("dev");
         return client;
@@ -67,6 +69,9 @@ public class KEAppExpressionBiclustersServerImpl {
 	}
 	
 	public KEAppOutput enrichGoterms4exprBiclusters(EnrichGoterms4exprBiclustersParams params, AuthToken authPart) throws IOException, JsonClientException {
+		
+		System.out.println("The app_guid: " + params.getAppGuid());
+		
 		// TODO remove  when fixed
 		params.withAppGuid("KEApp2");
 
@@ -125,11 +130,10 @@ public class KEAppExpressionBiclustersServerImpl {
 			AuthToken authPart) throws IOException, JsonClientException {
 		
         KBaseRelationEngineServiceClient reClient = getRECleint(authPart);
-        KbKeUtilClient kmClient = getKEMathClient(authPart);
+        KbKeUtilServiceClient kmClient = getKEMathClient(authPart);
         int biclusterId = 1;
         
         // Get KEApp
-//        KEAppDescriptor app = getApp(reClient, appGuid); 
         KEAppDescriptor app = initApp(reClient, appGuid);
                 
         // Get all compendia
@@ -176,13 +180,13 @@ public class KEAppExpressionBiclustersServerImpl {
 	private KEAppOutput enrichGoterms4Biclusters(String appGuid, 
 			String dataType, AuthToken authPart) throws IOException, JsonClientException {
         KBaseRelationEngineServiceClient reClient = getRECleint(authPart);
-        KbKeUtilClient kmClient = getKEMathClient(authPart);
+        KbKeUtilServiceClient kmClient = getKEMathClient(authPart);
+        final double PVALUE_CUTOFF = 0.05;
         final String GO_TERM_SPACE = "molecular_function";
         final String SOURCE_FEATURE_SET_TYPE = "Bicluster";
         int profileId = 1;
         
         // Get KEApp
-//        KEAppDescriptor app = getApp(reClient, appGuid); 
         KEAppDescriptor app = initApp(reClient, appGuid);
         
         // Get all compendia
@@ -211,7 +215,7 @@ public class KEAppExpressionBiclustersServerImpl {
         	int index = 0;
         	// Process each bicluster
         	for(Bicluster b: biclusters){
-        		if(index++ >= 3) break;        	
+        		if(index++ >= 5) break;        	
         		
         		// Do enrichment for features from a bicluster
         		List<String> sampleSet = b.getFeatureGuids();
@@ -233,6 +237,7 @@ public class KEAppExpressionBiclustersServerImpl {
 				for(Entry<String, TermEnrichment> tte : res.getEnrichmentProfile().entrySet()){
 					String termGuid = tte.getKey();
 					TermEnrichment te = tte.getValue();
+					if(te.getPValue().doubleValue() > PVALUE_CUTOFF) continue;
 					kbaserelationengine.TermEnrichment t = 
 							new kbaserelationengine.TermEnrichment()
 							.withExpectedCount(te.getExpectedCount())
@@ -240,9 +245,11 @@ public class KEAppExpressionBiclustersServerImpl {
 							.withSampleCount(te.getSampleCount())
 							.withTermGuid(termGuid)
 							.withTotalCount(te.getTotalCount());
-					System.out.println("term: " + t);
 					terms.add(t);
-				}				
+				}	
+				
+				if(terms.size() == 0) continue;
+				
 				TermEnrichmentProfile profile = new TermEnrichmentProfile()
 						.withGuid("GOP:" + System.currentTimeMillis() + "_" + (profileId++))
 						.withKeappGuid(app.getGuid())
