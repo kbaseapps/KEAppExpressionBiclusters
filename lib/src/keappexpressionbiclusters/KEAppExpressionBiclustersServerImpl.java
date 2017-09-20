@@ -141,8 +141,12 @@ public class KEAppExpressionBiclustersServerImpl {
         		new GetCompendiumDescriptorsParams()
         		.withDataType(dataType));
         
+        System.out.println("There are " + compendia.size() + " compendia to process");
+        
         // Process each compendium
         for(CompendiumDescriptor cmp: compendia){
+        	
+        	System.out.println("Doing compendia: " + cmp);
         	
         	// Build biclusters
         	BuildBiclustersOutput res = kmClient.buildBiclusters(
