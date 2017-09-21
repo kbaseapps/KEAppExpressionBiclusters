@@ -127,6 +127,22 @@ class KEAppExpressionBiclusters(object):
             'KEAppExpressionBiclusters.orthologs_kbase_enrich_goterms',
             [params], self._service_ver, context)
 
+    def test_biclustering(self, params, context=None):
+        """
+        :param params: instance of type "TestBiclusteringParams" ->
+           structure: parameter "app_guid" of String, parameter "data_type"
+           of String, parameter "dist_metric" of String, parameter
+           "dist_threshold" of Double, parameter "fcluster_criterion" of
+           String, parameter "linkage_method" of String
+        :returns: instance of type "KEAppOutput" -> structure: parameter
+           "new_re_nodes" of Long, parameter "updated_re_nodes" of Long,
+           parameter "new_re_links" of Long, parameter "properties_set" of
+           Long, parameter "message" of String
+        """
+        return self._client.call_method(
+            'KEAppExpressionBiclusters.test_biclustering',
+            [params], self._service_ver, context)
+
     def status(self, context=None):
         return self._client.call_method('KEAppExpressionBiclusters.status',
                                         [], self._service_ver, context)

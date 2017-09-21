@@ -56,4 +56,15 @@ module KEAppExpressionBiclusters {
     funcdef orthologs_kbase_enrich_goterms(OrthologsKbaseEnrichGotermsParams params)
         returns (KEAppOutput) authentication required;        
 
+    typedef structure {
+    	string app_guid;
+		string data_type;
+		string dist_metric;
+		float dist_threshold;
+		string fcluster_criterion;
+		string linkage_method;	
+    } TestBiclusteringParams;
+    funcdef test_biclustering(TestBiclusteringParams params)
+        returns (KEAppOutput) authentication required;        
+
 };

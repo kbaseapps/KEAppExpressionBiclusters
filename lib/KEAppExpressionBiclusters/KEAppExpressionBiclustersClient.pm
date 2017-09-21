@@ -792,6 +792,114 @@ KEAppOutput is a reference to a hash where the following keys are defined:
     }
 }
  
+
+
+=head2 test_biclustering
+
+  $return = $obj->test_biclustering($params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$params is a KEAppExpressionBiclusters.TestBiclusteringParams
+$return is a KEAppExpressionBiclusters.KEAppOutput
+TestBiclusteringParams is a reference to a hash where the following keys are defined:
+	app_guid has a value which is a string
+	data_type has a value which is a string
+	dist_metric has a value which is a string
+	dist_threshold has a value which is a float
+	fcluster_criterion has a value which is a string
+	linkage_method has a value which is a string
+KEAppOutput is a reference to a hash where the following keys are defined:
+	new_re_nodes has a value which is an int
+	updated_re_nodes has a value which is an int
+	new_re_links has a value which is an int
+	properties_set has a value which is an int
+	message has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$params is a KEAppExpressionBiclusters.TestBiclusteringParams
+$return is a KEAppExpressionBiclusters.KEAppOutput
+TestBiclusteringParams is a reference to a hash where the following keys are defined:
+	app_guid has a value which is a string
+	data_type has a value which is a string
+	dist_metric has a value which is a string
+	dist_threshold has a value which is a float
+	fcluster_criterion has a value which is a string
+	linkage_method has a value which is a string
+KEAppOutput is a reference to a hash where the following keys are defined:
+	new_re_nodes has a value which is an int
+	updated_re_nodes has a value which is an int
+	new_re_links has a value which is an int
+	properties_set has a value which is an int
+	message has a value which is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub test_biclustering
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function test_biclustering (received $n, expecting 1)");
+    }
+    {
+	my($params) = @args;
+
+	my @_bad_arguments;
+        (ref($params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"params\" (value was \"$params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to test_biclustering:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'test_biclustering');
+	}
+    }
+
+    my $url = $self->{url};
+    my $result = $self->{client}->call($url, $self->{headers}, {
+	    method => "KEAppExpressionBiclusters.test_biclustering",
+	    params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'test_biclustering',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method test_biclustering",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'test_biclustering',
+				       );
+    }
+}
+ 
   
 sub status
 {
@@ -835,16 +943,16 @@ sub version {
             Bio::KBase::Exceptions::JSONRPC->throw(
                 error => $result->error_message,
                 code => $result->content->{code},
-                method_name => 'orthologs_kbase_enrich_goterms',
+                method_name => 'test_biclustering',
             );
         } else {
             return wantarray ? @{$result->result} : $result->result->[0];
         }
     } else {
         Bio::KBase::Exceptions::HTTP->throw(
-            error => "Error invoking method orthologs_kbase_enrich_goterms",
+            error => "Error invoking method test_biclustering",
             status_line => $self->{client}->status_line,
-            method_name => 'orthologs_kbase_enrich_goterms',
+            method_name => 'test_biclustering',
         );
     }
 }
@@ -1121,6 +1229,46 @@ app_guid has a value which is a string
 
 a reference to a hash where the following keys are defined:
 app_guid has a value which is a string
+
+
+=end text
+
+=back
+
+
+
+=head2 TestBiclusteringParams
+
+=over 4
+
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+app_guid has a value which is a string
+data_type has a value which is a string
+dist_metric has a value which is a string
+dist_threshold has a value which is a float
+fcluster_criterion has a value which is a string
+linkage_method has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+app_guid has a value which is a string
+data_type has a value which is a string
+dist_metric has a value which is a string
+dist_threshold has a value which is a float
+fcluster_criterion has a value which is a string
+linkage_method has a value which is a string
 
 
 =end text

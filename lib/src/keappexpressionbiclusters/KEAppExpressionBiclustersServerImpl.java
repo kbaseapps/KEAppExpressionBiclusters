@@ -38,6 +38,11 @@ public class KEAppExpressionBiclustersServerImpl {
     private URL srvWizUrl = null;
     private URL callbackUrl = null;    	
 	
+	private final String DIST_METRIC = "cityblock";
+	private final double DIST_THRESHOLD = 1.0;
+	private final String FCLUSTER_CRITERION = "distance";
+	private final String LINKAGE_METHOD = "ward";    
+    
     public KEAppExpressionBiclustersServerImpl(Map<String, String> config) throws MalformedURLException {
         srvWizUrl = new URL(config.get("srv-wiz-url"));
         callbackUrl = new URL(System.getenv("SDK_CALLBACK_URL"));
@@ -65,7 +70,14 @@ public class KEAppExpressionBiclustersServerImpl {
 		params.withAppGuid("KEApp1");
 		
         final String dataType = "gene expression";        
-        return constructBiclusters(params.getAppGuid(), dataType, authPart);
+        return constructBiclusters(
+        		params.getAppGuid(), 
+        		dataType,         		
+        		DIST_METRIC,
+        		DIST_THRESHOLD,
+        		FCLUSTER_CRITERION,
+        		LINKAGE_METHOD,            		        		
+        		authPart);
 	}
 	
 	public KEAppOutput enrichGoterms4exprBiclusters(EnrichGoterms4exprBiclustersParams params, AuthToken authPart) throws IOException, JsonClientException {
@@ -84,7 +96,14 @@ public class KEAppExpressionBiclustersServerImpl {
 		params.withAppGuid("KEApp3");
 
 		final String dataType = "gene knockout fitness";
-        return constructBiclusters(params.getAppGuid(), dataType, authPart);
+        return constructBiclusters(
+        		params.getAppGuid(),        		
+        		dataType, 
+        		DIST_METRIC,
+        		DIST_THRESHOLD,
+        		FCLUSTER_CRITERION,
+        		LINKAGE_METHOD,            		        		        		
+        		authPart);
 	}
 
 	public KEAppOutput enrichGoterms4fitnessBiclusters(EnrichGoterms4fitnessBiclustersParams params,
@@ -126,7 +145,25 @@ public class KEAppExpressionBiclustersServerImpl {
 		.withMessage("");   
 	}	
     
-	private KEAppOutput constructBiclusters(String appGuid, String dataType,
+	public KEAppOutput testBiclustering(TestBiclusteringParams params, AuthToken authPart) throws IOException, JsonClientException {
+
+        return constructBiclusters(
+        		params.getAppGuid(),        		
+        		params.getDataType(), 
+        		params.getDistMetric(),
+        		params.getDistThreshold(),
+        		params.getFclusterCriterion(),
+        		params.getLinkageMethod(),            		        		        		
+        		authPart);
+	}
+	
+	private KEAppOutput constructBiclusters(
+			String appGuid, 
+			String dataType,
+			String distMetric,
+			double distThreshold,
+			String fclusterCriterion,
+			String linkageMethod,
 			AuthToken authPart) throws IOException, JsonClientException {
 		
         KBaseRelationEngineServiceClient reClient = getRECleint(authPart);
@@ -152,10 +189,10 @@ public class KEAppExpressionBiclustersServerImpl {
         	BuildBiclustersOutput res = kmClient.buildBiclusters(
         		new BuildBiclustersParams()
         		.withNdarrayRef(cmp.getWsNdarrayId())
-        		.withDistMetric("euclidean")
-        		.withDistThreshold(50.0)
-        		.withFclusterCriterion("distance")
-        		.withLinkageMethod("ward"));        		
+        		.withDistMetric(distMetric)
+        		.withDistThreshold(distThreshold)
+        		.withFclusterCriterion(fclusterCriterion)
+        		.withLinkageMethod(linkageMethod));        		
         	
         	// Build list of biclusters
         	List<Bicluster> biclusters = new ArrayList<Bicluster>();
@@ -322,80 +359,6 @@ public class KEAppExpressionBiclustersServerImpl {
         		new CleanKEAppResultsParams()
         		.withAppGuid(app.getGuid()));
         return app;
-	}
-
-	
-	// That is what you get from WS
-	class Term{
-		String id;
-		List<Term> parents;
-	}
-	List<Term> terms;
-	
-	// That is what will be the result of conversion
-	class ATerm{
-		String id;
-		List<AEdge> parents = new ArrayList<AEdge>();
-		List<AEdge> children = new ArrayList<AEdge>();
-	}
-	class AEdge{
-		ATerm paretnTerm;
-		ATerm childTerm;
-		double weight;
-		AEdge(ATerm paretnTerm, ATerm childTerm, double weight){
-			this.paretnTerm = paretnTerm;
-			this.childTerm = childTerm;
-			this.weight = weight;
-		}
-	}
-	ATerm root;
-	Hashtable<String, ATerm> id2aterms = new Hashtable<String,ATerm>();
-	
-	
-	// Example of method to convert Terms to ATerms
-	public ATerm convert(List<Term> terms){
-		
-		// First build top down DAG and find the root
-		ATerm root = null;		
-		for(Term term: terms){
-			ATerm child = id2aterms.get(term.id);
-			if(child == null){
-				child = new ATerm();
-				child.id = term.id;		
-				id2aterms.put(child.id, child);
-			}
-			if(term.parents.size() == 0){
-				root = child; 
-			} else{
-				for(Term t: term.parents){
-					ATerm parent = id2aterms.get(t.id);
-					if(parent == null){
-						parent = new ATerm();
-						parent.id = t.id;
-						id2aterms.put(parent.id, parent);
-					}
-					AEdge edge = new AEdge(parent,child, 0);
-					parent.children.add(edge);
-					child.parents.add(edge);
-				}				
-			}
-		}
-		
-		// Go top down and assign weights
-		doChildren(root, 1);
-		
-		return root;
-	}
-
-	private void doChildren(ATerm parent, int depth) {
-		for(AEdge e: parent.children){
-			e.weight = 1.0/Math.pow(2, ++depth);
-			doChildren(e.childTerm, depth);
-		}
-	}
-	
-	void doIt(){
-		root = convert(terms);
 	}
 	
 	
