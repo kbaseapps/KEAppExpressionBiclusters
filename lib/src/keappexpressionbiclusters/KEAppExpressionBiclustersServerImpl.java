@@ -185,34 +185,37 @@ public class KEAppExpressionBiclustersServerImpl {
         	
         	System.out.println("Doing compendia: " + cmp);
         	
-        	// Build biclusters
-        	BuildBiclustersOutput res = kmClient.buildBiclusters(
-        		new BuildBiclustersParams()
-        		.withNdarrayRef(cmp.getWsNdarrayId())
-        		.withDistMetric(distMetric)
-        		.withDistThreshold(distThreshold)
-        		.withFclusterCriterion(fclusterCriterion)
-        		.withLinkageMethod(linkageMethod));        		
-        	
-        	// Build list of biclusters
-        	List<Bicluster> biclusters = new ArrayList<Bicluster>();
-        	for(List<String> biItemGuids: res.getBiclusters()) {
-        		Bicluster bic = new Bicluster()
-        				.withCompendiumGuid(cmp.getGuid())
-        				.withConditionGuids(null)
-        				.withFeatureGuids(biItemGuids)
-        				.withGuid("BIC:" + System.currentTimeMillis() + "_" + (biclusterId++))
-        				.withKeappGuid(app.getGuid());
-        		biclusters.add(bic);
+        	try{
+            	// Build biclusters
+            	BuildBiclustersOutput res = kmClient.buildBiclusters(
+            		new BuildBiclustersParams()
+            		.withNdarrayRef(cmp.getWsNdarrayId())
+            		.withDistMetric(distMetric)
+            		.withDistThreshold(distThreshold)
+            		.withFclusterCriterion(fclusterCriterion)
+            		.withLinkageMethod(linkageMethod));        		
+            	
+            	// Build list of biclusters
+            	List<Bicluster> biclusters = new ArrayList<Bicluster>();
+            	for(List<String> biItemGuids: res.getBiclusters()) {
+            		Bicluster bic = new Bicluster()
+            				.withCompendiumGuid(cmp.getGuid())
+            				.withConditionGuids(null)
+            				.withFeatureGuids(biItemGuids)
+            				.withGuid("BIC:" + System.currentTimeMillis() + "_" + (biclusterId++))
+            				.withKeappGuid(app.getGuid());
+            		biclusters.add(bic);
+            	}
+            	
+            	// Store biclusters
+            	GraphUpdateStat graphStat = reClient.storeBiclusters(
+            			new StoreBiclustersParams()
+            			.withBiclusters(biclusters));
+            	
+            	updateAppState(reClient, app, graphStat);        		
+        	}catch(Exception e){
+        		e.printStackTrace(System.out);
         	}
-        	
-        	// Store biclusters
-        	GraphUpdateStat graphStat = reClient.storeBiclusters(
-        			new StoreBiclustersParams()
-        			.withBiclusters(biclusters));
-        	
-        	updateAppState(reClient, app, graphStat);
-        	// Update app state        	
         }
         
         return builKEAppOutput(app);
