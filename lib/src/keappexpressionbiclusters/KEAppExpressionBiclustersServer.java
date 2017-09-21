@@ -22,7 +22,7 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
     private static final long serialVersionUID = 1L;
     private static final String version = "0.0.1";
     private static final String gitUrl = "https://github.com/psnovichkov/KEAppExpressionBiclusters.git";
-    private static final String gitCommitHash = "dae84aceb14f2cabda57c3f80719b729589d8097";
+    private static final String gitCommitHash = "6757209d6ef0099e105aa7854651fa66cd94d0a4";
 
     //BEGIN_CLASS_HEADER
     KEAppExpressionBiclustersServerImpl impl;
@@ -144,6 +144,22 @@ public class KEAppExpressionBiclustersServer extends JsonServerServlet {
         //BEGIN orthologs_kbase_enrich_goterms
         returnVal = impl.orthologsKbaseEnrichGoterms( params,  authPart);                                        
         //END orthologs_kbase_enrich_goterms
+        return returnVal;
+    }
+
+    /**
+     * <p>Original spec-file function name: test_biclustering</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link keappexpressionbiclusters.TestBiclusteringParams TestBiclusteringParams}
+     * @return   instance of type {@link keappexpressionbiclusters.KEAppOutput KEAppOutput}
+     */
+    @JsonServerMethod(rpc = "KEAppExpressionBiclusters.test_biclustering", async=true)
+    public KEAppOutput testBiclustering(TestBiclusteringParams params, AuthToken authPart, RpcContext jsonRpcContext) throws Exception {
+        KEAppOutput returnVal = null;
+        //BEGIN test_biclustering
+        returnVal = impl.testBiclustering( params,  authPart);                                                
+        //END test_biclustering
         return returnVal;
     }
     @JsonServerMethod(rpc = "KEAppExpressionBiclusters.status")
