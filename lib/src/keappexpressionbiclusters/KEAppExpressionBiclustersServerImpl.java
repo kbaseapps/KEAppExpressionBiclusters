@@ -39,9 +39,11 @@ public class KEAppExpressionBiclustersServerImpl {
     private URL callbackUrl = null;    	
 	
 	private final String DIST_METRIC = "cityblock";
-	private final double DIST_THRESHOLD = 1.0;
-	private final String FCLUSTER_CRITERION = "distance";
-	private final String LINKAGE_METHOD = "ward";    
+	private final double DIST_THRESHOLD = 250;
+	private final String FCLUSTER_CRITERION = "maxclust";
+	private final String LINKAGE_METHOD = "ward";
+	private final int MIN_CLUSTER_SIZE = 5;
+	private final int MAX_CLUSTER_SIZE = 30;
     
     public KEAppExpressionBiclustersServerImpl(Map<String, String> config) throws MalformedURLException {
         srvWizUrl = new URL(config.get("srv-wiz-url"));
@@ -198,6 +200,10 @@ public class KEAppExpressionBiclustersServerImpl {
             	// Build list of biclusters
             	List<Bicluster> biclusters = new ArrayList<Bicluster>();
             	for(List<String> biItemGuids: res.getBiclusters()) {
+            		int clusterSize = biItemGuids.size();
+            		if(clusterSize < MIN_CLUSTER_SIZE || clusterSize > MAX_CLUSTER_SIZE){
+            			continue;
+            		}
             		Bicluster bic = new Bicluster()
             				.withCompendiumGuid(cmp.getGuid())
             				.withConditionGuids(null)
