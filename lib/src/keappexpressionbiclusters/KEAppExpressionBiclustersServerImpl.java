@@ -267,6 +267,14 @@ public class KEAppExpressionBiclustersServerImpl {
         	GraphUpdateStat graphStat = reClient.storeTermEnrichmentProfiles(new StoreTermEnrichmentProfilesParams()
 					.withProfiles(profiles));
         	
+        	System.out.println("app: " + app);
+        	System.out.println("graphStat: " 
+        			+ graphStat.getNodesCreated()
+        			+ "\t" + graphStat.getRelationshipsCreated()
+        			+ "\t" + graphStat.getNodesCreated()
+        			+ "\t" + graphStat.getPropertiesSet()
+        			);
+        	
         	updateAppState(reClient, app, graphStat);
         }
         
@@ -314,6 +322,81 @@ public class KEAppExpressionBiclustersServerImpl {
         return app;
 	}
 
+	
+	// That is what you get from WS
+	class Term{
+		String id;
+		List<Term> parents;
+	}
+	List<Term> terms;
+	
+	// That is what will be the result of conversion
+	class ATerm{
+		String id;
+		List<AEdge> parents = new ArrayList<AEdge>();
+		List<AEdge> children = new ArrayList<AEdge>();
+	}
+	class AEdge{
+		ATerm paretnTerm;
+		ATerm childTerm;
+		double weight;
+		AEdge(ATerm paretnTerm, ATerm childTerm, double weight){
+			this.paretnTerm = paretnTerm;
+			this.childTerm = childTerm;
+			this.weight = weight;
+		}
+	}
+	ATerm root;
+	Hashtable<String, ATerm> id2aterms = new Hashtable<String,ATerm>();
+	
+	
+	// Example of method to convert Terms to ATerms
+	public ATerm convert(List<Term> terms){
+		
+		// First build top down DAG and find the root
+		ATerm root = null;		
+		for(Term term: terms){
+			ATerm child = id2aterms.get(term.id);
+			if(child == null){
+				child = new ATerm();
+				child.id = term.id;		
+				id2aterms.put(child.id, child);
+			}
+			if(term.parents.size() == 0){
+				root = child; 
+			} else{
+				for(Term t: term.parents){
+					ATerm parent = id2aterms.get(t.id);
+					if(parent == null){
+						parent = new ATerm();
+						parent.id = t.id;
+						id2aterms.put(parent.id, parent);
+					}
+					AEdge edge = new AEdge(parent,child, 0);
+					parent.children.add(edge);
+					child.parents.add(edge);
+				}				
+			}
+		}
+		
+		// Go top down and assign weights
+		doChildren(root, 1);
+		
+		return root;
+	}
+
+	private void doChildren(ATerm parent, int depth) {
+		for(AEdge e: parent.children){
+			e.weight = 1.0/Math.pow(2, ++depth);
+			doChildren(e.childTerm, depth);
+		}
+	}
+	
+	void doIt(){
+		root = convert(terms);
+	}
+	
+	
 	
 //	private KEAppDescriptor getApp(KBaseRelationEngineServiceClient reClient, String appGuid) throws IOException, JsonClientException {
 //        return reClient.getKEAppDescriptor(
