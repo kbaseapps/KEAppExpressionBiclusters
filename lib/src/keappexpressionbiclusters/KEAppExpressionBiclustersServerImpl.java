@@ -264,16 +264,18 @@ public class KEAppExpressionBiclustersServerImpl {
 						.withTerms(terms);
 				profiles.add(profile);				
         	}
+        	if(profiles.size() == 0) continue;
         	GraphUpdateStat graphStat = reClient.storeTermEnrichmentProfiles(new StoreTermEnrichmentProfilesParams()
 					.withProfiles(profiles));
         	
-        	System.out.println("app: " + app);
-        	System.out.println("graphStat: " 
-        			+ graphStat.getNodesCreated()
-        			+ "\t" + graphStat.getRelationshipsCreated()
-        			+ "\t" + graphStat.getNodesCreated()
-        			+ "\t" + graphStat.getPropertiesSet()
-        			);
+//        	System.out.println("app: " + app);
+//        	System.out.println("profile: " + );
+//        	System.out.println("graphStat: " 
+//        			+ graphStat.getNodesCreated()
+//        			+ "\t" + graphStat.getRelationshipsCreated()
+//        			+ "\t" + graphStat.getNodesCreated()
+//        			+ "\t" + graphStat.getPropertiesSet()
+//        			);
         	
         	updateAppState(reClient, app, graphStat);
         }
