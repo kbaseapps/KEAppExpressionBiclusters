@@ -43,9 +43,9 @@ public class KEAppExpressionBiclustersServerImpl {
         callbackUrl = new URL(System.getenv("SDK_CALLBACK_URL"));
 	}
 
-	private KbKeUtilClient getKEMathClient(AuthToken authPart) throws UnauthorizedException, IOException{
-        KbKeUtilClient client = new KbKeUtilClient(callbackUrl, authPart);
-//		KbKeUtilServiceClient client = new KbKeUtilServiceClient(srvWizUrl, authPart);
+	private KbKeUtilServiceClient getKEMathClient(AuthToken authPart) throws UnauthorizedException, IOException{
+//        KbKeUtilClient client = new KbKeUtilClient(callbackUrl, authPart);
+		KbKeUtilServiceClient client = new KbKeUtilServiceClient(srvWizUrl, authPart);
         client.setIsInsecureHttpConnectionAllowed(true);
         client.setServiceVersion("dev");
         return client;
@@ -130,7 +130,7 @@ public class KEAppExpressionBiclustersServerImpl {
 			AuthToken authPart) throws IOException, JsonClientException {
 		
         KBaseRelationEngineServiceClient reClient = getRECleint(authPart);
-        KbKeUtilClient kmClient = getKEMathClient(authPart);
+        KbKeUtilServiceClient kmClient = getKEMathClient(authPart);
         int biclusterId = 1;
         
         // Get KEApp
@@ -184,7 +184,7 @@ public class KEAppExpressionBiclustersServerImpl {
 	private KEAppOutput enrichGoterms4Biclusters(String appGuid, 
 			String dataType, AuthToken authPart) throws IOException, JsonClientException {
         KBaseRelationEngineServiceClient reClient = getRECleint(authPart);
-        KbKeUtilClient kmClient = getKEMathClient(authPart);
+        KbKeUtilServiceClient kmClient = getKEMathClient(authPart);
         final double PVALUE_CUTOFF = 0.05;
         final String GO_TERM_SPACE = "molecular_function";
         final String SOURCE_FEATURE_SET_TYPE = "Bicluster";
