@@ -44,6 +44,11 @@ public class KEAppExpressionBiclustersServerImpl {
 	private final String LINKAGE_METHOD = "ward";
 	private final int MIN_CLUSTER_SIZE = 5;
 	private final int MAX_CLUSTER_SIZE = 30;
+	
+    final double PVALUE_CUTOFF = 0.05;
+//    final String GO_TERM_SPACE = "molecular_function";
+    final String GO_TERM_SPACE = "biological_process";    
+	
     
     public KEAppExpressionBiclustersServerImpl(Map<String, String> config) throws MalformedURLException {
         srvWizUrl = new URL(config.get("srv-wiz-url"));
@@ -231,9 +236,7 @@ public class KEAppExpressionBiclustersServerImpl {
 			String dataType, AuthToken authPart) throws IOException, JsonClientException {
         KBaseRelationEngineServiceClient reClient = getRECleint(authPart);
         KbKeUtilServiceClient kmClient = getKEMathClient(authPart);
-        final double PVALUE_CUTOFF = 0.05;
-        final String GO_TERM_SPACE = "molecular_function";
-        final String SOURCE_FEATURE_SET_TYPE = "Bicluster";
+        final String SOURCE_FEATURE_SET_TYPE = "Bicluster";        
         int profileId = 1;
         
         // Get KEApp
@@ -262,10 +265,8 @@ public class KEAppExpressionBiclustersServerImpl {
         	List<Bicluster> biclusters = reClient.getBiclusters(new GetBiclustersParams()
         			.withCompendiumGuid(cmp.getGuid()));
         	
-        	int index = 0;
         	// Process each bicluster
         	for(Bicluster b: biclusters){
-        		if(index++ >= 5) break;        	
         		
         		// Do enrichment for features from a bicluster
         		List<String> sampleSet = b.getFeatureGuids();
