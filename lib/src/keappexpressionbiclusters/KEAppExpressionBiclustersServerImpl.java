@@ -1,5 +1,6 @@
 package keappexpressionbiclusters;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -8,6 +9,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kbaserelationengine.Bicluster;
 import kbaserelationengine.CleanKEAppResultsParams;
@@ -70,7 +73,6 @@ public class KEAppExpressionBiclustersServerImpl {
     }    
     
     private KBaseRelationEngineServiceClient getRECleint(AuthToken authPart) throws UnauthorizedException, IOException{
-    	System.out.println(authPart);
         KBaseRelationEngineServiceClient client = new KBaseRelationEngineServiceClient(srvWizUrl, authPart);
         client.setIsInsecureHttpConnectionAllowed(true);
         client.setServiceVersion("dev");
@@ -295,7 +297,15 @@ public class KEAppExpressionBiclustersServerImpl {
         		System.out.println("Sample set size:" + sampleSet.size());
         		if(sampleSet.size() == 0) continue;        		        	    
         		
-				Long propagation = 1L;
+				Long propagation = 0L;
+				
+//				EnrichOnthologyParams p = new EnrichOnthologyParams()
+//				.withSampleSet(sampleSet)
+//				.withEntityTermSet(entityTermSet)
+//				.withPropagation(propagation);
+//				new ObjectMapper().writeValue(new File("EnrichOnthologyParams.json"), p);
+        		
+        		
 				EnrichOnthologyOutput res = kmClient.enrichOnthology(
         				new EnrichOnthologyParams()
         				.withSampleSet(sampleSet)
@@ -393,9 +403,7 @@ public class KEAppExpressionBiclustersServerImpl {
         		.withAppGuid(app.getGuid()));
         return app;
 	}
-	
-	
-	
+			
 //	private KEAppDescriptor getApp(KBaseRelationEngineServiceClient reClient, String appGuid) throws IOException, JsonClientException {
 //        return reClient.getKEAppDescriptor(
 //        		new GetKEAppDescriptorParams()
