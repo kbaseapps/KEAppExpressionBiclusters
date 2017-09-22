@@ -1,6 +1,5 @@
 package keappexpressionbiclusters;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,8 +8,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kbaserelationengine.Bicluster;
 import kbaserelationengine.CleanKEAppResultsParams;
@@ -30,7 +27,6 @@ import kbkeutil.BuildBiclustersOutput;
 import kbkeutil.BuildBiclustersParams;
 import kbkeutil.EnrichOnthologyOutput;
 import kbkeutil.EnrichOnthologyParams;
-import kbkeutil.KbKeUtilClient;
 import kbkeutil.KbKeUtilServiceClient;
 import kbkeutil.TermEnrichment;
 import us.kbase.auth.AuthToken;
