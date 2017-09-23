@@ -339,6 +339,40 @@ public class KBaseRelationEngineServiceClient {
     }
 
     /**
+     * <p>Original spec-file function name: getWSFeatureTermEnrichmentProfiles</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetWSFeatureTermEnrichmentProfilesParams GetWSFeatureTermEnrichmentProfilesParams}
+     * @return   instance of type {@link kbaserelationengine.GetWSFeatureTermEnrichmentProfilesOutput GetWSFeatureTermEnrichmentProfilesOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GetWSFeatureTermEnrichmentProfilesOutput getWSFeatureTermEnrichmentProfiles(GetWSFeatureTermEnrichmentProfilesParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<GetWSFeatureTermEnrichmentProfilesOutput>> retType = new TypeReference<List<GetWSFeatureTermEnrichmentProfilesOutput>>() {};
+        List<GetWSFeatureTermEnrichmentProfilesOutput> res = caller.jsonrpcCall("KBaseRelationEngine.getWSFeatureTermEnrichmentProfiles", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: getWSFeatureTermPairs</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetWSFeatureTermPairsParams GetWSFeatureTermPairsParams}
+     * @return   instance of list of type {@link kbaserelationengine.WSFeatureTermPair WSFeatureTermPair}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public List<WSFeatureTermPair> getWSFeatureTermPairs(GetWSFeatureTermPairsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<List<WSFeatureTermPair>>> retType = new TypeReference<List<List<WSFeatureTermPair>>>() {};
+        List<List<WSFeatureTermPair>> res = caller.jsonrpcCall("KBaseRelationEngine.getWSFeatureTermPairs", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
      * <p>Original spec-file function name: getFeatureTerms</p>
      * <pre>
      * </pre>
@@ -356,6 +390,57 @@ public class KBaseRelationEngineServiceClient {
     }
 
     /**
+     * <p>Original spec-file function name: getTerms</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetTermsParams GetTermsParams}
+     * @return   instance of list of type {@link kbaserelationengine.Term Term}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public List<Term> getTerms(GetTermsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<List<Term>>> retType = new TypeReference<List<List<Term>>>() {};
+        List<List<Term>> res = caller.jsonrpcCall("KBaseRelationEngine.getTerms", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: getOrthologGroups</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetOrthologGroupsParams GetOrthologGroupsParams}
+     * @return   instance of type {@link kbaserelationengine.GetOrthologGroupsOutput GetOrthologGroupsOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GetOrthologGroupsOutput getOrthologGroups(GetOrthologGroupsParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<GetOrthologGroupsOutput>> retType = new TypeReference<List<GetOrthologGroupsOutput>>() {};
+        List<GetOrthologGroupsOutput> res = caller.jsonrpcCall("KBaseRelationEngine.getOrthologGroups", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: getOrthologTermEnrichmentProfiles</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.GetOrthologTermEnrichmentProfilesParams GetOrthologTermEnrichmentProfilesParams}
+     * @return   instance of type {@link kbaserelationengine.GetOrthologTermEnrichmentProfilesOutput GetOrthologTermEnrichmentProfilesOutput}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GetOrthologTermEnrichmentProfilesOutput getOrthologTermEnrichmentProfiles(GetOrthologTermEnrichmentProfilesParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<GetOrthologTermEnrichmentProfilesOutput>> retType = new TypeReference<List<GetOrthologTermEnrichmentProfilesOutput>>() {};
+        List<GetOrthologTermEnrichmentProfilesOutput> res = caller.jsonrpcCall("KBaseRelationEngine.getOrthologTermEnrichmentProfiles", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
      * <p>Original spec-file function name: storeWSGenome</p>
      * <pre>
      * </pre>
@@ -369,6 +454,23 @@ public class KBaseRelationEngineServiceClient {
         args.add(params);
         TypeReference<List<GraphUpdateStat>> retType = new TypeReference<List<GraphUpdateStat>>() {};
         List<GraphUpdateStat> res = caller.jsonrpcCall("KBaseRelationEngine.storeWSGenome", args, retType, true, true, jsonRpcContext, this.serviceVersion);
+        return res.get(0);
+    }
+
+    /**
+     * <p>Original spec-file function name: storeRichWSGenome</p>
+     * <pre>
+     * </pre>
+     * @param   params   instance of type {@link kbaserelationengine.StoreRichWSGenomeParams StoreRichWSGenomeParams}
+     * @return   instance of type {@link kbaserelationengine.GraphUpdateStat GraphUpdateStat}
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public GraphUpdateStat storeRichWSGenome(StoreRichWSGenomeParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(params);
+        TypeReference<List<GraphUpdateStat>> retType = new TypeReference<List<GraphUpdateStat>>() {};
+        List<GraphUpdateStat> res = caller.jsonrpcCall("KBaseRelationEngine.storeRichWSGenome", args, retType, true, true, jsonRpcContext, this.serviceVersion);
         return res.get(0);
     }
 

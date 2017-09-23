@@ -1,16 +1,16 @@
 package keappexpressionbiclusters;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import kbaserelationengine.Bicluster;
 import kbaserelationengine.CleanKEAppResultsParams;
@@ -19,6 +19,10 @@ import kbaserelationengine.FeatureTerms;
 import kbaserelationengine.GetBiclustersParams;
 import kbaserelationengine.GetCompendiumDescriptorsParams;
 import kbaserelationengine.GetFeatureTermsParams;
+import kbaserelationengine.GetOrthologGroupsOutput;
+import kbaserelationengine.GetOrthologGroupsParams;
+import kbaserelationengine.GetOrthologTermEnrichmentProfilesOutput;
+import kbaserelationengine.GetOrthologTermEnrichmentProfilesParams;
 import kbaserelationengine.GraphUpdateStat;
 import kbaserelationengine.KBaseRelationEngineServiceClient;
 import kbaserelationengine.KEAppDescriptor;
@@ -30,7 +34,6 @@ import kbkeutil.BuildBiclustersOutput;
 import kbkeutil.BuildBiclustersParams;
 import kbkeutil.EnrichOnthologyOutput;
 import kbkeutil.EnrichOnthologyParams;
-import kbkeutil.KbKeUtilClient;
 import kbkeutil.KbKeUtilServiceClient;
 import kbkeutil.TermEnrichment;
 import us.kbase.auth.AuthToken;
@@ -52,6 +55,11 @@ public class KEAppExpressionBiclustersServerImpl {
 	private final String APP_GUID_BICLUSTER_EXPRESSION_GO_ENRICHMENT = "KEApp2";
 	private final String APP_GUID_BICLUSTER_FITNESS = "KEApp3";
 	private final String APP_GUID_BICLUSTER_FITNESS_GO_ENRICHMENT = "KEApp4";
+	
+	private final String APP_GUID_ORTHOLOG_EXPRESSION_GO_ENRICHMENT = "KEApp5";
+	private final String APP_GUID_ORTHOLOG_FITNESS_GO_ENRICHMENT = "KEApp6";
+	private final String APP_GUID_ORTHOLOG_KBASE_GO_ENRICHMENT = "KEApp7";
+
 	
 	
     final double PVALUE_CUTOFF = 0.05;
@@ -131,36 +139,112 @@ public class KEAppExpressionBiclustersServerImpl {
 		return enrichGoterms4Biclusters(params.getAppGuid(), APP_GUID_BICLUSTER_FITNESS, dataType, authPart);
 	}		
 
-	public KEAppOutput orthologsEnrichGoterms4expr(OrthologsEnrichGoterms4ExpressionParams params, AuthToken authPart) {
-		// TODO Auto-generated method stub
-		return new KEAppOutput()
-		.withNewReNodes(10L)
-		.withNewReLinks(20L)
-		.withUpdatedReNodes(0L)
-		.withPropertiesSet(0L)
-		.withMessage("");   
+	public KEAppOutput orthologsEnrichGoterms4expr(OrthologsEnrichGoterms4ExpressionParams params, AuthToken authPart) throws IOException, JsonClientException {
+		params.withAppGuid(APP_GUID_ORTHOLOG_EXPRESSION_GO_ENRICHMENT);		
+		return combineProfiles(
+				params.getAppGuid(), authPart,				
+				APP_GUID_BICLUSTER_EXPRESSION_GO_ENRICHMENT);		
 	}
 
-	public KEAppOutput orthologsEnrichGoterms4fitness(OrthologsEnrichGoterms4FitnessParams params, AuthToken authPart) {
-		// TODO Auto-generated method stub
-		return new KEAppOutput()
-		.withNewReNodes(10L)
-		.withNewReLinks(20L)
-		.withUpdatedReNodes(0L)
-		.withPropertiesSet(0L)
-		.withMessage("");   
+	public KEAppOutput orthologsEnrichGoterms4fitness(OrthologsEnrichGoterms4FitnessParams params, AuthToken authPart) throws IOException, JsonClientException {
+		params.withAppGuid(APP_GUID_ORTHOLOG_FITNESS_GO_ENRICHMENT);		
+		return combineProfiles(
+				params.getAppGuid(), authPart,			
+				APP_GUID_BICLUSTER_FITNESS_GO_ENRICHMENT);		
 	}
 
-	public KEAppOutput orthologsKbaseEnrichGoterms(OrthologsKbaseEnrichGotermsParams params, AuthToken authPart) {
-		// TODO Auto-generated method stub
-		return new KEAppOutput()
-		.withNewReNodes(10L)
-		.withNewReLinks(20L)
-		.withUpdatedReNodes(0L)
-		.withPropertiesSet(0L)
-		.withMessage("");   
+	public KEAppOutput orthologsKbaseEnrichGoterms(OrthologsKbaseEnrichGotermsParams params, AuthToken authPart) throws IOException, JsonClientException {
+		params.withAppGuid(APP_GUID_ORTHOLOG_KBASE_GO_ENRICHMENT);		
+		return combineProfiles(
+				params.getAppGuid(), authPart,
+				APP_GUID_BICLUSTER_EXPRESSION_GO_ENRICHMENT, APP_GUID_BICLUSTER_FITNESS_GO_ENRICHMENT);		
 	}	
     
+	private KEAppOutput combineProfiles(String appGuid, AuthToken authPart,
+			String...sourceAppGuids) throws IOException, JsonClientException {
+	       	KBaseRelationEngineServiceClient reClient = getRECleint(authPart);
+	        final String SOURCE_FEATURE_SET_TYPE = "OrthologGroup";        
+	        int profileId = 1;
+	        int TOP_TERMS_COUNT = 5;
+	        
+	        // Get KEApp
+	        KEAppDescriptor app = initApp(reClient, appGuid);
+	                
+	        // Get list of all ortholog groups
+	        GetOrthologGroupsOutput res = reClient.getOrthologGroups(new GetOrthologGroupsParams()		        		
+	        		.withWithTermEnrichmnetProfiles(1L)
+	        		.withAppGuids(Arrays.asList(sourceAppGuids)));
+	        
+	        List<String> orthologGuids = res.getOrthologGroupGuids();
+	        
+	        int BATCH_SIZE = 100;
+	        List<String> batchOrthologGuids = new ArrayList<String>();
+	        int j = 0;
+	        for(int i = 0 ; i < (orthologGuids.size() + BATCH_SIZE - 1)/BATCH_SIZE; i++){
+	        	// Build batch
+	        	batchOrthologGuids.clear();	        	
+	        	for(int k  = 0; k < BATCH_SIZE && j < orthologGuids.size(); k++,j++ ){
+	        		batchOrthologGuids.add(orthologGuids.get(j));
+	        	}
+	        	
+				List<TermEnrichmentProfile> profiles = new ArrayList<TermEnrichmentProfile>();
+	        	
+	        	// Get profiles
+	        	GetOrthologTermEnrichmentProfilesOutput pres = reClient.getOrthologTermEnrichmentProfiles(new GetOrthologTermEnrichmentProfilesParams()
+	        			.withAppGuids(Arrays.asList(sourceAppGuids))
+	        			.withOrthologGroupGuids(batchOrthologGuids)
+	        			);
+	        	
+	        	// Do ortpholog groups
+	        	Map<String ,kbaserelationengine.TermEnrichment> terms = new 
+	        			Hashtable<String, kbaserelationengine.TermEnrichment>();
+	        	for(Entry<String, List<TermEnrichmentProfile>> entry : pres.getOrtholog2profiles().entrySet()){
+
+	        		// Do ortholog group
+	        		String orthologGuid = entry.getKey();
+	        		
+	        		// Collect all unqiue terms
+	        		terms.clear();
+	        		List<TermEnrichmentProfile> _profiles = entry.getValue();
+	        		for(TermEnrichmentProfile profile: _profiles){	
+	        			for(kbaserelationengine.TermEnrichment te: profile.getTerms()){
+	        				kbaserelationengine.TermEnrichment tePrev = terms.get(te.getTermGuid());
+	        				if(tePrev == null || te.getPValue() < tePrev.getPValue()){
+	        					terms.put(te.getTermGuid(), te);
+	        				}
+	        			}
+	        		}
+	        		
+	        		List<kbaserelationengine.TermEnrichment> bestTerms 
+	        			= new ArrayList<kbaserelationengine.TermEnrichment>(terms.values());
+	        		bestTerms.sort(new Comparator<kbaserelationengine.TermEnrichment>() {
+						@Override
+						public int compare(kbaserelationengine.TermEnrichment o1,
+								kbaserelationengine.TermEnrichment o2) {
+							return o1.getPValue().compareTo(o2.getPValue());
+						}	        			
+					});
+	        				
+	        		bestTerms = bestTerms.subList(0, Math.min(TOP_TERMS_COUNT, bestTerms.size()));
+	        		
+	        		// Store 
+					TermEnrichmentProfile profile = new TermEnrichmentProfile()
+							.withGuid("GOP:" + System.currentTimeMillis() + "_" + (profileId++))
+							.withKeappGuid(app.getGuid())
+							.withSourceGeneSetGuid(orthologGuid)
+							.withSourceGeneSetType(SOURCE_FEATURE_SET_TYPE)
+							.withTermNamespace(GO_TERM_SPACE)
+							.withTerms(bestTerms);
+					profiles.add(profile);				
+	        		
+	        	}
+	        	GraphUpdateStat graphStat = reClient.storeTermEnrichmentProfiles(new StoreTermEnrichmentProfilesParams()
+						.withProfiles(profiles));
+	        	updateAppState(reClient, app, graphStat);	        	
+	        }
+		return builKEAppOutput(app);
+	}
+
 	public KEAppOutput testBiclustering(TestBiclusteringParams params, AuthToken authPart) throws IOException, JsonClientException {
 
         return constructBiclusters(
@@ -347,15 +431,6 @@ public class KEAppExpressionBiclustersServerImpl {
         	if(profiles.size() == 0) continue;
         	GraphUpdateStat graphStat = reClient.storeTermEnrichmentProfiles(new StoreTermEnrichmentProfilesParams()
 					.withProfiles(profiles));
-        	
-//        	System.out.println("app: " + app);
-//        	System.out.println("profile: " + );
-//        	System.out.println("graphStat: " 
-//        			+ graphStat.getNodesCreated()
-//        			+ "\t" + graphStat.getRelationshipsCreated()
-//        			+ "\t" + graphStat.getNodesCreated()
-//        			+ "\t" + graphStat.getPropertiesSet()
-//        			);
         	
         	updateAppState(reClient, app, graphStat);
         }
