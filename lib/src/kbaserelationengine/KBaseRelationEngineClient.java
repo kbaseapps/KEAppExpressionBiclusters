@@ -850,7 +850,7 @@ public class KBaseRelationEngineClient {
      * <pre>
      * </pre>
      * @param   params   instance of type {@link kbaserelationengine.GetOrthologTermEnrichmentProfilesParams GetOrthologTermEnrichmentProfilesParams}
-     * @return   instance of list of type {@link kbaserelationengine.TermEnrichmentProfile TermEnrichmentProfile}
+     * @return   instance of type {@link kbaserelationengine.GetOrthologTermEnrichmentProfilesOutput GetOrthologTermEnrichmentProfilesOutput}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
@@ -872,13 +872,13 @@ public class KBaseRelationEngineClient {
      * <pre>
      * </pre>
      * @param   params   instance of type {@link kbaserelationengine.GetOrthologTermEnrichmentProfilesParams GetOrthologTermEnrichmentProfilesParams}
-     * @return   instance of list of type {@link kbaserelationengine.TermEnrichmentProfile TermEnrichmentProfile}
+     * @return   instance of type {@link kbaserelationengine.GetOrthologTermEnrichmentProfilesOutput GetOrthologTermEnrichmentProfilesOutput}
      * @throws IOException if an IO exception occurs
      * @throws JsonClientException if a JSON RPC exception occurs
      */
-    public List<TermEnrichmentProfile> getOrthologTermEnrichmentProfiles(GetOrthologTermEnrichmentProfilesParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+    public GetOrthologTermEnrichmentProfilesOutput getOrthologTermEnrichmentProfiles(GetOrthologTermEnrichmentProfilesParams params, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
         String jobId = _getOrthologTermEnrichmentProfilesSubmit(params, jsonRpcContext);
-        TypeReference<List<JobState<List<List<TermEnrichmentProfile>>>>> retType = new TypeReference<List<JobState<List<List<TermEnrichmentProfile>>>>>() {};
+        TypeReference<List<JobState<List<GetOrthologTermEnrichmentProfilesOutput>>>> retType = new TypeReference<List<JobState<List<GetOrthologTermEnrichmentProfilesOutput>>>>() {};
         long asyncJobCheckTimeMs = this.asyncJobCheckTimeMs;
         while (true) {
             if (Thread.currentThread().isInterrupted())
@@ -889,7 +889,7 @@ public class KBaseRelationEngineClient {
                 throw new JsonClientException("Thread was interrupted", ex);
             }
             asyncJobCheckTimeMs = Math.min(asyncJobCheckTimeMs * this.asyncJobCheckTimeScalePercent / 100, this.asyncJobCheckMaxTimeMs);
-            JobState<List<List<TermEnrichmentProfile>>> res = _checkJob(jobId, retType);
+            JobState<List<GetOrthologTermEnrichmentProfilesOutput>> res = _checkJob(jobId, retType);
             if (res.getFinished() != 0L)
                 return res.getResult().get(0);
         }
