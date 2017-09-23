@@ -5,8 +5,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -217,7 +217,7 @@ public class KEAppExpressionBiclustersServerImpl {
 	        		
 	        		List<kbaserelationengine.TermEnrichment> bestTerms 
 	        			= new ArrayList<kbaserelationengine.TermEnrichment>(terms.values());
-	        		bestTerms.sort(new Comparator<kbaserelationengine.TermEnrichment>() {
+	        		Collections.sort(bestTerms, new Comparator<kbaserelationengine.TermEnrichment>() {
 						@Override
 						public int compare(kbaserelationengine.TermEnrichment o1,
 								kbaserelationengine.TermEnrichment o2) {
