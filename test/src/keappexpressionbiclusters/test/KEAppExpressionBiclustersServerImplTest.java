@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import keappexpressionbiclusters.EnrichGoterms4exprBiclustersParams;
 import keappexpressionbiclusters.KEAppExpressionBiclustersServerImpl;
+import keappexpressionbiclusters.OrthologsEnrichGoterms4ExpressionParams;
 import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonClientException;
 
@@ -34,7 +35,7 @@ public class KEAppExpressionBiclustersServerImplTest {
 
 	@Test
 	public void testEnrichGoterms4exprBiclusters() throws IOException, JsonClientException {
-		impl.enrichGoterms4exprBiclusters(new EnrichGoterms4exprBiclustersParams(), new AuthToken(token, user));
+		impl.orthologsEnrichGoterms4expr(new OrthologsEnrichGoterms4ExpressionParams(), new AuthToken(token, user));
 	}
 
 //	@Test

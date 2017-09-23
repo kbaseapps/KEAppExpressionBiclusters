@@ -38,6 +38,7 @@ import kbkeutil.KbKeUtilServiceClient;
 import kbkeutil.TermEnrichment;
 import us.kbase.auth.AuthToken;
 import us.kbase.common.service.JsonClientException;
+import us.kbase.common.service.ServerException;
 import us.kbase.common.service.UnauthorizedException;
 
 public class KEAppExpressionBiclustersServerImpl {
@@ -226,6 +227,10 @@ public class KEAppExpressionBiclustersServerImpl {
 					});
 	        				
 	        		bestTerms = bestTerms.subList(0, Math.min(TOP_TERMS_COUNT, bestTerms.size()));
+	        		// Fix expectedCounts
+	        		for(kbaserelationengine.TermEnrichment t: bestTerms){
+	        			t.setExpectedCount(0L);
+	        		}
 	        		
 	        		// Store 
 					TermEnrichmentProfile profile = new TermEnrichmentProfile()
@@ -238,9 +243,16 @@ public class KEAppExpressionBiclustersServerImpl {
 					profiles.add(profile);				
 	        		
 	        	}
-	        	GraphUpdateStat graphStat = reClient.storeTermEnrichmentProfiles(new StoreTermEnrichmentProfilesParams()
-						.withProfiles(profiles));
-	        	updateAppState(reClient, app, graphStat);	        	
+	        	try{
+		        	GraphUpdateStat graphStat = reClient.storeTermEnrichmentProfiles(new StoreTermEnrichmentProfilesParams()
+							.withProfiles(profiles));
+		        	updateAppState(reClient, app, graphStat);	        	
+	        		
+	        		
+	        	}catch(ServerException e){
+	        		System.out.println(e.getData());
+	        	}
+
 	        }
 		return builKEAppOutput(app);
 	}
