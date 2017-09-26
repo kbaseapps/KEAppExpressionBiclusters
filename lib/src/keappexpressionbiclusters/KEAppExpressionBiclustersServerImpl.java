@@ -211,10 +211,10 @@ public class KEAppExpressionBiclustersServerImpl {
 	        		terms.clear();
 	        		List<TermEnrichmentProfile> _profiles = entry.getValue();
 	        		for(TermEnrichmentProfile profile: _profiles){	
-	        			if( profile.getKeappGuid().equals( APP_GUID_ORTHOLOG_EXPRESSION_GO_ENRICHMENT ) ){
+	        			if( profile.getKeappGuid().equals( APP_GUID_BICLUSTER_EXPRESSION_GO_ENRICHMENT ) ){
 	        				withExpression = 1;
 	        			} 
-	        			if( profile.getKeappGuid().equals( APP_GUID_ORTHOLOG_FITNESS_GO_ENRICHMENT ) ){
+	        			if( profile.getKeappGuid().equals( APP_GUID_BICLUSTER_FITNESS_GO_ENRICHMENT ) ){
 	        				withFitness = 1;
 	        			} 
 	        			
