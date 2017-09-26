@@ -167,7 +167,7 @@ public class KEAppExpressionBiclustersServerImpl {
 	        final String SOURCE_FEATURE_SET_TYPE = "OrthologGroup";        
 	        int profileId = 1;
 	        int TOP_TERMS_COUNT = 5;
-	        
+	        	        
 	        // Get KEApp
 	        KEAppDescriptor app = initApp(reClient, appGuid);
 	                
@@ -204,10 +204,20 @@ public class KEAppExpressionBiclustersServerImpl {
 	        		// Do ortholog group
 	        		String orthologGuid = entry.getKey();
 	        		
+	        		long withExpression = 0L;
+	    			long withFitness = 0L;
+	        		
 	        		// Collect all unqiue terms
 	        		terms.clear();
 	        		List<TermEnrichmentProfile> _profiles = entry.getValue();
 	        		for(TermEnrichmentProfile profile: _profiles){	
+	        			if( profile.getKeappGuid().equals( APP_GUID_ORTHOLOG_EXPRESSION_GO_ENRICHMENT ) ){
+	        				withExpression = 1;
+	        			} 
+	        			if( profile.getKeappGuid().equals( APP_GUID_ORTHOLOG_FITNESS_GO_ENRICHMENT ) ){
+	        				withFitness = 1;
+	        			} 
+	        			
 	        			for(kbaserelationengine.TermEnrichment te: profile.getTerms()){
 	        				kbaserelationengine.TermEnrichment tePrev = terms.get(te.getTermGuid());
 	        				if(tePrev == null || te.getPValue() < tePrev.getPValue()){
@@ -232,12 +242,14 @@ public class KEAppExpressionBiclustersServerImpl {
 	        			t.setExpectedCount(0L);
 	        		}
 	        		
-	        		// Store 
+					// Store 
 					TermEnrichmentProfile profile = new TermEnrichmentProfile()
 							.withGuid("GOP:" + System.currentTimeMillis() + "_" + (profileId++))
 							.withKeappGuid(app.getGuid())
 							.withSourceGeneSetGuid(orthologGuid)
 							.withSourceGeneSetType(SOURCE_FEATURE_SET_TYPE)
+							.withWithExpression(withExpression)
+							.withWithFitness(withFitness)
 							.withTermNamespace(GO_TERM_SPACE)
 							.withTerms(bestTerms);
 					profiles.add(profile);				
